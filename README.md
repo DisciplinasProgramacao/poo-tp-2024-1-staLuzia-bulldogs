@@ -5,11 +5,11 @@ Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
 
 * Pedro Henrique Resende Menezes
 * Rafael Sanzio e Silva
-* Mathues Felipe
-* Lucas
-* Pedro
+* Mathues Felipe da Silva
+* Lucas Pereira de Solza
+* Pedro Henrique Marques Simões
 
 ## Professores responsáveis
 
-* João Caram
+* João Caram Santos de Oliveira
 
