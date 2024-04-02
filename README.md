@@ -6,8 +6,8 @@ Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
 
 * Pedro Henrique Resende Menezes
 * Rafael Sanzio e Silva
-* Mathues Felipe da Silva
-* Lucas Pereira de Solza
+* Matheus Felipe da Silva
+* Lucas Pereira de Souza
 * Pedro Henrique Marques Simões
 
 ## Professores responsáveis
