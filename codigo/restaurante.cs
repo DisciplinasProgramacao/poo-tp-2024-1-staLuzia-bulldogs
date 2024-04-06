@@ -46,12 +46,22 @@ namespace Restaurante
         {
             if(filaRequisicao.Count != 0)
             {
-                Requisicao requisicao = filaRequisicao.Peek();
-                if (atribuirRequisicao(requisicao))
-                    filaRequisicao.Dequeue();
+                if (verificarDisponibilidade(filaRequisicao.Peek())){
+                    atribuirRequisicao(filaRequisicao.Dequeue();)      
+                }
                 return true;
             }
             return false;
+        }
+        public bool verificarDisponibilidade(int qnt){
+            foreach(Mesa mesa in listaMesa)
+                {
+                    if(mesa.verificarCapacidade(qnt) && !mesa.verificarDisponivel())
+                    {
+                        return true;
+                    }
+                }
+                return false;
         }
         public string conferirStatusMesas()
         {
