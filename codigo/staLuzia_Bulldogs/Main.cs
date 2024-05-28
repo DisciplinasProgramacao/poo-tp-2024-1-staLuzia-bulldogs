@@ -8,8 +8,6 @@ namespace staLuzia_Bulldogs
 {
     internal class Program
     {
-        static Dictionary<string, Cliente> baseClientes = new Dictionary<string, Cliente>();
-
         static void pausa()
         {
             Console.Write("\nTecle Enter para continuar.");
@@ -65,13 +63,6 @@ namespace staLuzia_Bulldogs
             return nova;
         }
 
-        static Cliente addCliente(string nomeCliente)
-        {
-            Cliente novo = new Cliente(nomeCliente);
-            baseClientes.Add(nomeCliente, novo);
-            return novo;
-        }
-
         static bool isNumeric(string value)
         {
             for (int i = 0; i < value.Length; i++)
@@ -107,7 +98,7 @@ namespace staLuzia_Bulldogs
                             tentativa("Cadastro inválido, insira informações válidas"); //Se não quiser tentar novamente, sair da função
                         else
                         {
-                            addCliente(nomeCliente);
+                            objRestaurante.addCliente(nomeCliente);
                             Console.WriteLine("Cadastro realizado com sucesso");
                             pausa();
                         }
@@ -115,18 +106,20 @@ namespace staLuzia_Bulldogs
 
                     case 2:
                         int intQntPessoas;
+                        Cliente cliente;
                         cabecalho();
                         Console.WriteLine("-------Requisição-------");
                         Console.Write("Qual cliente será atendido?");
                         nomeCliente = Console.ReadLine()!;
+                        cliente = objRestaurante.localizarCliente(nomeCliente);
                         Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
                         qntPessoas = Console.ReadLine()!;
 
-                        if (String.IsNullOrEmpty(qntPessoas) || int.TryParse(qntPessoas, out intQntPessoas) || !baseClientes.ContainsKey(nomeCliente))
+                        if (String.IsNullOrEmpty(qntPessoas) || int.TryParse(qntPessoas, out intQntPessoas) || cliente == null)
                             tentativa("Cadastro inválido, insira informações válidas");
                         else
                         {
-                            criarRequisição(baseClientes[nomeCliente], intQntPessoas);
+                            criarRequisição(cliente, intQntPessoas);
                             Console.WriteLine("Cadastro realizado com sucesso");
                             pausa();
                         }
