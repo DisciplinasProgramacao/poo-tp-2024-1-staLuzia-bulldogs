@@ -8,49 +8,20 @@ namespace staLuzia_Bulldogs
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static Dictionary<string, Cliente> baseClientes = new Dictionary<string, Cliente>();
+
+        static void pausa()
         {
-            Restaurante objRestaurante = new Restaurante();
-            Program obj = new Program();
-
-            Console.WriteLine("====== Bem vindo ao restaurante Sesas ======");
-            Console.WriteLine("Esolha uma das opções a seguir: \n");
-            Console.WriteLine("1) Cadastrar cliente \n2) Criar requisição \n3) Sair");
-            Console.WriteLine("=============================================");
-            Console.Write("Opção desejada: ");
-            string opcaoMenu = Console.ReadLine()!;
-
-            switch (opcaoMenu)
-            {
-                case "1":
-                    while (obj.criarCliente() != true)
-                    {
-                        if (init("Cadastro inválido, insira informações válidas \n"))
-                        {
-                            Console.Clear();
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    break;
-
-                case "2":
-                    obj.criarRequisição();
-                    break;
-
-                case "3":
-                    break;
-
-                default:
-                    Console.WriteLine("Opção inválida, favor tentar novamente");
-                    Main(args);
-                    break;
-            }
+            Console.Write("\nTecle Enter para continuar.");
+            Console.ReadKey();
         }
 
-        private static bool init(string contexto)
+        static void cabecalho()
+        {
+            Console.Clear();
+            Console.WriteLine("====== Restaurante Sesas ======");
+        }
+        static bool tentativa(string contexto)
         {
             Console.WriteLine(contexto);
             Console.Write("Deseja tentar novamente? (S/N)");
@@ -67,26 +38,29 @@ namespace staLuzia_Bulldogs
             {
                 Console.WriteLine("Resposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
                 Console.ReadKey();
-                return init(contexto);
+                return tentativa(contexto);
             }
         }
 
-        public bool criarRequisição()
+        static int menuPrincipal()
         {
-            Requisição objRequisição;
+            Console.Clear();
+            int opcaoMenu;
+            Console.WriteLine("====== Restaurante Sesas ======");
+            Console.WriteLine("Esolha uma das opções a seguir: \n");
+            Console.WriteLine("1) Cadastrar cliente \n2) Criar requisição \n3) Sair");
+            Console.WriteLine("=============================================");
+            Console.Write("Opção desejada: ");
+            int.TryParse(Console.ReadLine(), out opcaoMenu);
+            return opcaoMenu;
+        }
 
-            Console.WriteLine("-------Requisição-------");
+        static Requisicao criarRequisição(Cliente cliente, int qntPessoas)
+        {
+            Requisicao objRequisição;
             try
             {
-                Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
-                string qntPessoas = Console.ReadLine()!;
-
-                if (String.IsNullOrEmpty(qntPessoas))
-                    return false;
-
-                int intQntPessoas = Convert.ToInt32(qntPessoas);
-
-                objRequisição = new Requisição(intQntPessoas);
+                objRequisição = new Requisicao(cliente, qntPessoas);
 
                 objRequisição.registrarEntrada(DateTime.Now);
             }
@@ -99,36 +73,16 @@ namespace staLuzia_Bulldogs
             return true;
         }
 
-        public bool criarCliente()
+        static Cliente addCliente(string nomeCliente)
         {
-            Cliente objCliente;
+            Cliente novo = new Cliente(nomeCliente);
 
-            Console.WriteLine("-------Cadastro-------");
-            try
-            {
-                Console.Write("Nome: ");
-                string nomeCliente = Console.ReadLine()!;
-
-                if (String.IsNullOrEmpty(nomeCliente) || isNumeric(nomeCliente))
-                {
-                    return false;
-                }
-
-                objCliente = new Cliente(nomeCliente);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
-
-            Console.WriteLine("Cadastro realizado com sucesso");
-            return true;
+            return novo;
         }
 
-        private bool isNumeric(string value)
+        static bool isNumeric(string value)
         {
-            for(int i = 0; i < value.Length; i++)
+            for (int i = 0; i < value.Length; i++)
             {
                 if (char.IsNumber(value[i]))
                 {
@@ -136,6 +90,59 @@ namespace staLuzia_Bulldogs
                 }
             }
             return false;
+        }
+
+        static void Main(string[] args)
+        {
+            Restaurante objRestaurante = new Restaurante();
+            Program obj = new Program();
+            string nomeCliente;
+            string qntPessoas;
+            int opcaoMenu;
+
+            do
+            {
+                opcaoMenu = menuPrincipal();
+
+                switch (opcaoMenu)
+                {
+                    case 1:
+                        Cliente novo;
+                        cabecalho();
+                        Console.WriteLine("-------Cadastro-------");
+                        Console.Write("Qual o nome do cliente: ");
+                        nomeCliente = Console.ReadLine()!;
+                        if (String.IsNullOrEmpty(nomeCliente) || isNumeric(nomeCliente))
+                            tentativa("Cadastro inválido, insira informações válidas"); //Se não quiser tentar novamente, sair da função
+                        else
+                            novo = addCliente(nomeCliente);
+                            baseClientes.Add(nomeCliente, novo);
+                            Console.WriteLine("Cadastro realizado com sucesso");
+                        pausa();
+                        break;
+
+                    case 2:
+                        cabecalho();
+                        Console.WriteLine("-------Requisição-------");
+                        Console.Write("Qual cliente será atendido?");
+                        nomeCliente = Console.ReadLine()!;
+                        Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
+                        qntPessoas = Console.ReadLine()!;
+                        int intQntPessoas;
+                        if (String.IsNullOrEmpty(qntPessoas) || int.TryParse(qntPessoas, out intQntPessoas))
+                            tentativa("Cadastro inválido, insira informações válidas");
+                        else
+                            criarRequisição(nomeCliente, qntPessoas);
+                        break;
+
+                    case 3:
+                        break;
+
+                    default:
+                        Console.WriteLine("Opção inválida, favor tentar novamente");
+                        break;
+                }
+            }
         }
     }
 }

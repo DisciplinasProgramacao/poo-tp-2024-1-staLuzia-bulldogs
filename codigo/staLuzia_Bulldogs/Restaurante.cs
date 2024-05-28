@@ -8,12 +8,13 @@ namespace staLuzia_Bulldogs
 {
     class Restaurante
     {
+        
        private List<Mesa> listaMesa;
        private Queue<Requisicao> filaRequisicao;
-        public Restaurante(List<Mesa> listaMesa)
+        public Restaurante()
         {
-            this.listaMesa = listaMesa;
-            filaRequisicao = new Queue<Cliente>();
+            listaMesa = new List<Mesa>();
+            filaRequisicao = new Queue<Requisicao>();
         }
         public bool atribuirRequisicao(Requisicao requisicao)
         {

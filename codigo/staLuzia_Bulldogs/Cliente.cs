@@ -14,10 +14,5 @@ namespace staLuzia_Bulldogs
         {
             this.nome = nome;
         }
-
-        static void Main(string[] args)
-        {
-
-        }
     }
 }

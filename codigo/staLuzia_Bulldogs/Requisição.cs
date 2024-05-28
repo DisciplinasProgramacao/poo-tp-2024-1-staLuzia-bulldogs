@@ -15,7 +15,7 @@ namespace staLuzia_Bulldogs
         private Cliente cliente;
         private int quantPessoas;
         private Mesa mesa;
-        public Requisicao(cliente cliente, int quantPessoas)
+        public Requisicao(Cliente cliente, int quantPessoas)
         {
             this.cliente = cliente;
             this.quantPessoas = quantPessoas;
