@@ -57,26 +57,18 @@ namespace staLuzia_Bulldogs
 
         static Requisicao criarRequisição(Cliente cliente, int qntPessoas)
         {
-            Requisicao objRequisição;
-            try
-            {
-                objRequisição = new Requisicao(cliente, qntPessoas);
+            Requisicao nova;
+            nova = new Requisicao(cliente, qntPessoas);
 
-                objRequisição.registrarEntrada(DateTime.Now);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
+            nova.registrarEntrada(DateTime.Now);
 
-            return true;
+            return nova;
         }
 
         static Cliente addCliente(string nomeCliente)
         {
             Cliente novo = new Cliente(nomeCliente);
-
+            baseClientes.Add(nomeCliente, novo);
             return novo;
         }
 
@@ -107,7 +99,6 @@ namespace staLuzia_Bulldogs
                 switch (opcaoMenu)
                 {
                     case 1:
-                        Cliente novo;
                         cabecalho();
                         Console.WriteLine("-------Cadastro-------");
                         Console.Write("Qual o nome do cliente: ");
@@ -115,24 +106,30 @@ namespace staLuzia_Bulldogs
                         if (String.IsNullOrEmpty(nomeCliente) || isNumeric(nomeCliente))
                             tentativa("Cadastro inválido, insira informações válidas"); //Se não quiser tentar novamente, sair da função
                         else
-                            novo = addCliente(nomeCliente);
-                            baseClientes.Add(nomeCliente, novo);
+                        {
+                            addCliente(nomeCliente);
                             Console.WriteLine("Cadastro realizado com sucesso");
-                        pausa();
+                            pausa();
+                        }
                         break;
 
                     case 2:
+                        int intQntPessoas;
                         cabecalho();
                         Console.WriteLine("-------Requisição-------");
                         Console.Write("Qual cliente será atendido?");
                         nomeCliente = Console.ReadLine()!;
                         Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
                         qntPessoas = Console.ReadLine()!;
-                        int intQntPessoas;
-                        if (String.IsNullOrEmpty(qntPessoas) || int.TryParse(qntPessoas, out intQntPessoas))
+
+                        if (String.IsNullOrEmpty(qntPessoas) || int.TryParse(qntPessoas, out intQntPessoas) || !baseClientes.ContainsKey(nomeCliente))
                             tentativa("Cadastro inválido, insira informações válidas");
                         else
-                            criarRequisição(nomeCliente, qntPessoas);
+                        {
+                            criarRequisição(baseClientes[nomeCliente], intQntPessoas);
+                            Console.WriteLine("Cadastro realizado com sucesso");
+                            pausa();
+                        }
                         break;
 
                     case 3:
@@ -142,7 +139,7 @@ namespace staLuzia_Bulldogs
                         Console.WriteLine("Opção inválida, favor tentar novamente");
                         break;
                 }
-            }
+            } while (true);
         }
     }
 }
