@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Main
+namespace staLuzia_Bulldogs
 {
     internal class Program
     {
@@ -18,7 +18,7 @@ namespace Main
             Console.WriteLine("1) Cadastrar cliente \n2) Criar requisição \n3) Sair");
             Console.WriteLine("=============================================");
             Console.Write("Opção desejada: ");
-            string opcaoMenu = Console.ReadLine();
+            string opcaoMenu = Console.ReadLine()!;
 
             switch (opcaoMenu)
             {
@@ -54,7 +54,7 @@ namespace Main
         {
             Console.WriteLine(contexto);
             Console.Write("Deseja tentar novamente? (S/N)");
-            string resp = Console.ReadLine();
+            string resp = Console.ReadLine()!;
             if (resp.ToLower().Equals("n"))
             {
                 return false;
@@ -79,7 +79,7 @@ namespace Main
             try
             {
                 Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
-                string qntPessoas = Console.ReadLine();
+                string qntPessoas = Console.ReadLine()!;
 
                 if (String.IsNullOrEmpty(qntPessoas))
                     return false;
@@ -107,7 +107,7 @@ namespace Main
             try
             {
                 Console.Write("Nome: ");
-                string nomeCliente = Console.ReadLine();
+                string nomeCliente = Console.ReadLine()!;
 
                 if (String.IsNullOrEmpty(nomeCliente) || isNumeric(nomeCliente))
                 {
