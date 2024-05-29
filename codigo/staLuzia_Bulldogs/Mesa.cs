@@ -16,10 +16,6 @@ namespace staLuzia_Bulldogs
             this.capacidade = capacidade;
             reserva = false;
         }
-        public int ObterCapacidade()
-        {
-            return capacidade;
-        }
         public bool verificarDisponivel()
         {
             if(reserva == false)
@@ -30,11 +26,15 @@ namespace staLuzia_Bulldogs
         }
         public bool verificarCapacidade(int quantidadePessoas)
         {
-            if(quantidadePessoas <= ObterCapacidade())
+            if(quantidadePessoas <= capacidade)
             {
                 return true;
             }
             return false;
-        }        
+        }   
+
+        public void alternarStatus(bool status){
+            reserva = status;
+        }     
     }
 }

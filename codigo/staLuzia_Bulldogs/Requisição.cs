@@ -15,10 +15,11 @@ namespace staLuzia_Bulldogs
         private Cliente cliente;
         private int quantPessoas;
         private Mesa mesa;
-        public Requisicao(Cliente cliente, int quantPessoas)
+        public Requisicao(Cliente cliente, int quantPessoas, Mesa mesa)
         {
             this.cliente = cliente;
             this.quantPessoas = quantPessoas;
+            this.mesa  = mesa;
         }
 
         public void registrarEntrada(DateTime dataEntrada)
@@ -28,11 +29,6 @@ namespace staLuzia_Bulldogs
         public void registrarSaida(DateTime dataSaida)
         {
             dataSaida = DateTime.Now;
-        }
-        public Mesa reservar (Mesa mesa)
-        {
-            mesa.alternarStatus();
-            return mesa;
         }
         public bool alternarStatus()
         {
@@ -53,10 +49,6 @@ namespace staLuzia_Bulldogs
         public bool verificarStatus()
         {
            return statusReserva();
-        }
-        public int obterQuantidade()
-        {
-            return mesa.ObterCapacidade();
         }
     }
 }

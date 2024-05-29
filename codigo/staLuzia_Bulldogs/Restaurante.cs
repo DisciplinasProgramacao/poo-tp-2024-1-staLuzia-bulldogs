@@ -9,13 +9,13 @@ namespace staLuzia_Bulldogs
     class Restaurante
     {
         private Dictionary<string, Cliente> baseClientes;
-        private List<Mesa> listaMesa;
-        private Queue<Requisicao> filaRequisicao;
+        private Mesa[] listaMesa;
+        private Queue<Requisicao> filaEspera;
         public Restaurante()
         {
             baseClientes = new Dictionary<string, Cliente>();
-            listaMesa = new List<Mesa>();
-            filaRequisicao = new Queue<Requisicao>();
+            listaMesa = new Mesa[10];
+            filaEspera = new Queue<Requisicao>();
         }
 
         public Cliente localizarCliente(string nomeCliente){
@@ -29,72 +29,64 @@ namespace staLuzia_Bulldogs
             baseClientes.Add(nomeCliente, novo);
         }
 
-        public bool atribuirRequisicao(Requisicao requisicao)
-        {
-            if (!requisicao.statusReserva())
-            {
-                int qntPessoas = requisicao.obterQuantidade();
-                DateTime dataAgora = DateTime.Now;
-                foreach (Mesa mesa in listaMesa)
-                {
-                    if (mesa.verificarCapacidade(qntPessoas) && !mesa.verificarDisponivel())
-                    {
-                        requisicao.reservar(mesa);
-                        //requisicao.registrarEntrada(dataAgora);  Dúvida se registro de entrada é quando tem uma mesa, ou quando abre uma requisição
-                        return true;
-                    }
-                }
-                if (!filaRequisicao.Contains(requisicao))
-                    filaRequisicao.Enqueue(requisicao);
-                return false;
+        // public bool atribuirRequisicao(Requisicao requisicao)
+        // {
+        //     if (!requisicao.statusReserva())
+        //     {
+        //         int qntPessoas = requisicao.obterQuantidade();
+        //         DateTime dataAgora = DateTime.Now;
+        //         foreach (Mesa mesa in listaMesa)
+        //         {
+        //             if (mesa.verificarCapacidade(qntPessoas) && !mesa.verificarDisponivel())
+        //             {
+        //                 requisicao.reservar(mesa);
+        //                 //requisicao.registrarEntrada(dataAgora);  Dúvida se registro de entrada é quando tem uma mesa, ou quando abre uma requisição
+        //                 return true;
+        //             }
+        //         }
+        //         if (!filaRequisicao.Contains(requisicao))
+        //             filaRequisicao.Enqueue(requisicao);
+        //         return false;
 
-            }
-        }
-        public Requisicao abrirRequisicao(Cliente cliente, DateTime dataEntrada, int quantidadePessoas)
+        //     }
+        //     return false;
+        // }
+        public Requisicao abrirRequisicao(Cliente cliente, int quantidadePessoas, Mesa mesa)
         {
-            Requisicao requisicao = new Requisicao(cliente, quantidadePessoas);
-            requisicao.registrarEntrada(dataEntrada);
+            Requisicao requisicao = new Requisicao(cliente, quantidadePessoas, mesa);
+            requisicao.registrarEntrada(DateTime.Now);
             return requisicao;
         }
         public bool avancarFila()
         {
-            if (filaRequisicao.Count != 0)
+            if (filaEspera.Count != 0)
             {
-                if (verificarDisponibilidade(filaRequisicao.Peek()))
+                if (verificarDisponibilidade(filaEspera.Peek()))
                 {
-                    atribuirRequisicao(filaRequisicao.Dequeue();)      
+                    atribuirRequisicao(filaEspera.Dequeue());      
                 }
                 return true;
             }
             return false;
         }
-        public bool verificarDisponibilidade(int qnt)
+        public Mesa mesaDisponivel(int qnt)
         {
             foreach (Mesa mesa in listaMesa)
             {
                 if (mesa.verificarCapacidade(qnt) && !mesa.verificarDisponivel())
                 {
-                    return true;
+                    return mesa;
                 }
             }
-            return false;
-        }
-        public string conferirStatusMesas()
-        {
-            StringBuilder status = new StringBuilder();
-            foreach (Mesa mesa in listaMesa)
-            {
-                status.AppendLine(String.Format("Capacidade Mesa: {0}, Disponibilidade: {1}", mesa.obterCapacidade(), mesa.verificarDisponibilidade()));
-            }
-            return status.ToString();
+            return null!;
         }
         public bool encerrarAtendimento(Requisicao requisicao)
         {
             if (requisicao.verificarStatus())
             {
-                requisicao.registrarSaida();
-                requisicao.obterMesa().alternarStatus();
-                requisicao.Mesa = null;
+                requisicao.registrarSaida(DateTime.Now);
+                requisicao.obterMesa().alternarStatus(false);
+                //avançar fila
                 return true;
             }
             return false;

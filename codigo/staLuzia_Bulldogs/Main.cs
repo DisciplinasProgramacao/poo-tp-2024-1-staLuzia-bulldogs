@@ -8,6 +8,8 @@ namespace staLuzia_Bulldogs
 {
     internal class Program
     {
+        static Restaurante objRestaurante = new Restaurante();
+
         static void pausa()
         {
             Console.Write("\nTecle Enter para continuar.");
@@ -42,25 +44,54 @@ namespace staLuzia_Bulldogs
 
         static int menuPrincipal()
         {
-            Console.Clear();
             int opcaoMenu;
-            Console.WriteLine("====== Restaurante Sesas ======");
+            cabecalho();
+            Console.WriteLine("=============================================");
             Console.WriteLine("Esolha uma das opções a seguir: \n");
-            Console.WriteLine("1) Cadastrar cliente \n2) Criar requisição \n3) Sair");
+            Console.WriteLine("1) Cadastrar cliente \n2) Requisitar mesa");
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine("3) Realizar Pedido \n4) Fechar Pedido");
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine("5) Sair");
             Console.WriteLine("=============================================");
             Console.Write("Opção desejada: ");
             int.TryParse(Console.ReadLine(), out opcaoMenu);
             return opcaoMenu;
         }
 
-        static Requisicao criarRequisição(Cliente cliente, int qntPessoas)
+        static int menuBebidas()
         {
-            Requisicao nova;
-            nova = new Requisicao(cliente, qntPessoas);
+            int opcaoMenu;
+            cabecalho();
+            Console.WriteLine("===================Bebidas====================");
+            Console.WriteLine("Esolha uma das opções a seguir: \n");
+            Console.WriteLine("1. Água – R$ 3");
+            Console.WriteLine("2. Copo de suco – R$ 7");
+            Console.WriteLine("3. Refrigerante orgânico – R$ 7");
+            Console.WriteLine("4. Cerveja vegana – R$ 9");
+            Console.WriteLine("5. Taça de vinho vegano – R$ 18");
+            Console.WriteLine("\n=============================================");
+            Console.Write("Opção desejada: ");
+            int.TryParse(Console.ReadLine(), out opcaoMenu);
+            return opcaoMenu;
+        }
 
-            nova.registrarEntrada(DateTime.Now);
-
-            return nova;
+        static int menuComidas()
+        {
+            int opcaoMenu;
+            cabecalho();
+            Console.WriteLine("===================Comidas===================");
+            Console.WriteLine("Esolha uma das opções a seguir: \n");
+            Console.WriteLine("1. Moqueca de Palmito – R$ 32");
+            Console.WriteLine("2. Falafel Assado – R$ 20");
+            Console.WriteLine("3. Salada Primavera com Macarrão Konjac – R$ 25");
+            Console.WriteLine("4. Escondidinho de Inhame – R$ 18");
+            Console.WriteLine("5. Strogonoff de Cogumelos – R$ 35");
+            Console.WriteLine("6. Caçarola de legumes – R$ 22");
+            Console.WriteLine("\n=============================================");
+            Console.Write("Opção desejada: ");
+            int.TryParse(Console.ReadLine(), out opcaoMenu);
+            return opcaoMenu;
         }
 
         static bool isNumeric(string value)
@@ -75,13 +106,24 @@ namespace staLuzia_Bulldogs
             return false;
         }
 
+        static Mesa requisitarMesa(int qntPessoas)
+        {
+            Mesa mesa;
+            mesa = objRestaurante.mesaDisponivel(qntPessoas);
+            if(mesa == null){
+                //add fila espera
+                return null!;
+            }
+            return mesa;
+        }
+
         static void Main(string[] args)
         {
-            Restaurante objRestaurante = new Restaurante();
-            Program obj = new Program();
+
             string nomeCliente;
             string qntPessoas;
             int opcaoMenu;
+            bool cond = true;
 
             do
             {
@@ -107,11 +149,12 @@ namespace staLuzia_Bulldogs
                     case 2:
                         int intQntPessoas;
                         Cliente cliente;
+                        Mesa mesa;
                         cabecalho();
                         Console.WriteLine("-------Requisição-------");
                         Console.Write("Qual cliente será atendido?");
-                        nomeCliente = Console.ReadLine()!;
-                        cliente = objRestaurante.localizarCliente(nomeCliente);
+                        //nomeCliente = Console.ReadLine()!;
+                        cliente = objRestaurante.localizarCliente(Console.ReadLine()!);
                         Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
                         qntPessoas = Console.ReadLine()!;
 
@@ -119,20 +162,30 @@ namespace staLuzia_Bulldogs
                             tentativa("Cadastro inválido, insira informações válidas");
                         else
                         {
-                            criarRequisição(cliente, intQntPessoas);
-                            Console.WriteLine("Cadastro realizado com sucesso");
+                            mesa = requisitarMesa(intQntPessoas);
+                            objRestaurante.abrirRequisicao(cliente, intQntPessoas, mesa);
+                            Console.WriteLine("Requisição criada com sucesso");
                             pausa();
                         }
                         break;
 
                     case 3:
+                        Console.WriteLine("-------Abrir-Pedido-------");
+                        break;
+
+                    case 4:
+                        cond = false;
+                        break;
+
+                    case 5:
+                        cond = false;
                         break;
 
                     default:
                         Console.WriteLine("Opção inválida, favor tentar novamente");
                         break;
                 }
-            } while (true);
+            } while (cond == true);
         }
     }
 }
