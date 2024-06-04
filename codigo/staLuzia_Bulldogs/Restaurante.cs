@@ -9,6 +9,7 @@ namespace staLuzia_Bulldogs
     class Restaurante
     {
         private Dictionary<string, Cliente> baseClientes;
+        private Dictionary<string, Requisicao> baseRequisicao;
         private Mesa[] listaMesa;
         private Queue<Requisicao> filaEspera;
         public Restaurante()
@@ -24,33 +25,17 @@ namespace staLuzia_Bulldogs
             return null!;
         }
 
+        public Cliente localizarRequisição(string nomeCliente){
+            if(baseRequisicoes.ContainsKey(nomeCliente))
+                return baseRequisicao[nomeCliente];
+            return null!;
+        }
+
         public void addCliente(string nomeCliente){
             Cliente novo = new Cliente(nomeCliente);
             baseClientes.Add(nomeCliente, novo);
         }
 
-        // public bool atribuirRequisicao(Requisicao requisicao)
-        // {
-        //     if (!requisicao.statusReserva())
-        //     {
-        //         int qntPessoas = requisicao.obterQuantidade();
-        //         DateTime dataAgora = DateTime.Now;
-        //         foreach (Mesa mesa in listaMesa)
-        //         {
-        //             if (mesa.verificarCapacidade(qntPessoas) && !mesa.verificarDisponivel())
-        //             {
-        //                 requisicao.reservar(mesa);
-        //                 //requisicao.registrarEntrada(dataAgora);  Dúvida se registro de entrada é quando tem uma mesa, ou quando abre uma requisição
-        //                 return true;
-        //             }
-        //         }
-        //         if (!filaRequisicao.Contains(requisicao))
-        //             filaRequisicao.Enqueue(requisicao);
-        //         return false;
-
-        //     }
-        //     return false;
-        // }
         public Requisicao abrirRequisicao(Cliente cliente, int quantidadePessoas, Mesa mesa)
         {
             Requisicao requisicao = new Requisicao(cliente, quantidadePessoas, mesa);
@@ -80,16 +65,17 @@ namespace staLuzia_Bulldogs
             }
             return null!;
         }
-        public bool encerrarAtendimento(Requisicao requisicao)
+        public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
         {
             if (requisicao.verificarStatus())
             {
                 requisicao.registrarSaida(DateTime.Now);
                 requisicao.obterMesa().alternarStatus(false);
-                //avançar fila
-                return true;
+                baseRequisicao.remove(nomeCliente, requisicao);
+                avancarFila();
+                return requisicao.fecharPedido();
             }
-            return false;
+            return "Requisição já fechada";
         }
     }
 }

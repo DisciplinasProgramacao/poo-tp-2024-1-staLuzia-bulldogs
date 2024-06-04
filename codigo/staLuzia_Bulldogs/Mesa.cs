@@ -9,7 +9,7 @@ namespace staLuzia_Bulldogs
     internal class Mesa
     {
         private int capacidade;
-        private bool reserva;
+        private bool reservado;
 
         public Mesa(int capacidade)
         {
@@ -34,7 +34,7 @@ namespace staLuzia_Bulldogs
         }   
 
         public void alternarStatus(bool status){
-            reserva = status;
+            reservado = status;
         }     
     }
 }
