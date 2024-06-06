@@ -42,7 +42,7 @@ namespace staLuzia_Bulldogs
                 sb.AppendLine(comida.ToString());
             }
 
-            return sb.ToString();
+            return sb.ToString() + "\nR$: " + precoFinal().ToString();
         }
 
         public double precoFinal()
