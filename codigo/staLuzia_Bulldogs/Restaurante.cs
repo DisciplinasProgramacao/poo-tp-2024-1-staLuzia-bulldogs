@@ -40,7 +40,6 @@ namespace staLuzia_Bulldogs
         public Requisicao abrirRequisicao(int quantidadePessoas, Mesa mesa)
         {
             Requisicao requisicao = new Requisicao(quantidadePessoas, mesa);
-            requisicao.registrarEntrada(DateTime.Now);
             return requisicao;
         }
         public bool avancarFila()
@@ -70,7 +69,7 @@ namespace staLuzia_Bulldogs
         {
             if (requisicao.verificarStatus())
             {
-                requisicao.registrarSaida(DateTime.Now);
+                requisicao.registrarSaida();
                 requisicao.obterMesa().alternarStatus(false);
                 baseRequisicao.Remove(nomeCliente);
                 avancarFila();

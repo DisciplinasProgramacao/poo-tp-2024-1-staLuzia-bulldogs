@@ -19,6 +19,7 @@ namespace staLuzia_Bulldogs
 
         public Requisicao(int quantPessoas, Mesa mesa)
         {
+            dataEntrada = DateTime.Now;
             this.quantPessoas = quantPessoas;
             this.mesa = mesa;
             pedido = new Pedido();
@@ -33,11 +34,7 @@ namespace staLuzia_Bulldogs
             return mesa;
         }
 
-        public void registrarEntrada(DateTime dataEntrada)
-        {
-            this.dataEntrada = DateTime.Now;
-        }
-        public void registrarSaida(DateTime dataSaida)
+        public void registrarSaida()
         {
             dataSaida = DateTime.Now;
         }

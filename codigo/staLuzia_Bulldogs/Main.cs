@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.IO;
 
 namespace staLuzia_Bulldogs
 {
@@ -13,17 +15,17 @@ namespace staLuzia_Bulldogs
         static void pausa()
         {
             Console.Write("\nTecle Enter para continuar.");
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         static void cabecalho()
         {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("====== Restaurante Sesas ======");
         }
-        static bool tentativa(string contexto)
+        static bool novaTentativa(string contexto)
         {
-            Console.WriteLine(contexto);
+            Console.WriteLine(contexto + ", insira informações válidas");
             Console.Write("Deseja tentar novamente? (S/N)");
             string resp = Console.ReadLine()!;
             if (resp.ToLower().Equals("n"))
@@ -37,28 +39,8 @@ namespace staLuzia_Bulldogs
             else
             {
                 Console.WriteLine("Resposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
-                Console.ReadKey();
-                return tentativa(contexto);
-            }
-        }
-
-        static bool novamente()
-        {
-            Console.Write("Deseja inserir novamente? (S/N)");
-            string resp = Console.ReadLine()!;
-            if (resp.ToLower().Equals("n"))
-            {
-                return false;
-            }
-            else if (resp.ToLower().Equals("s"))
-            {
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Resposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
-                Console.ReadKey();
-                return novamente();
+                //Console.ReadKey();
+                return novaTentativa(contexto);
             }
         }
 
@@ -66,14 +48,14 @@ namespace staLuzia_Bulldogs
         {
             int opcaoMenu;
             cabecalho();
-            Console.WriteLine("=============================================");
+            Console.WriteLine("===============================");
             Console.WriteLine("Esolha uma das opções a seguir: \n");
             Console.WriteLine("1) Cadastrar cliente \n2) Requisitar mesa");
-            Console.WriteLine("-----------------------------");
+            Console.WriteLine("-------------------------------");
             Console.WriteLine("3) Abrir Pedido \n4) Fechar Atendimento");
-            Console.WriteLine("-----------------------------");
+            Console.WriteLine("-------------------------------");
             Console.WriteLine("5) Sair");
-            Console.WriteLine("=============================================");
+            Console.WriteLine("===============================");
             Console.Write("Opção desejada: ");
             int.TryParse(Console.ReadLine(), out opcaoMenu);
             return opcaoMenu;
@@ -175,9 +157,6 @@ namespace staLuzia_Bulldogs
 
         static void Main(string[] args)
         {
-
-            string nomeCliente;
-            string qntPessoas;
             int opcaoMenu;
             bool cond = true;
 
@@ -188,41 +167,61 @@ namespace staLuzia_Bulldogs
                 switch (opcaoMenu)
                 {
                     case 1:
+                        string nomeCliente = "";
                         cabecalho();
                         Console.WriteLine("-------Cadastro-------");
-                        Console.Write("Qual o nome do cliente: ");
-                        nomeCliente = Console.ReadLine()!;
-                        if (String.IsNullOrEmpty(nomeCliente) || isNumeric(nomeCliente))
-                            tentativa("Cadastro inválido, insira informações válidas");
-                        else
+                        try
                         {
-                            objRestaurante.addCliente(nomeCliente);
-                            Console.WriteLine("Cadastro realizado com sucesso");
-                            pausa();
+                            Console.Write("Qual o nome do cliente: ");
+                            nomeCliente = Console.ReadLine()!;
+                            if (isNumeric(nomeCliente))
+                            {
+                                throw new FormatException("Nome inválido");
+                            }
                         }
+                        catch (FormatException ex)
+                        {
+                            novaTentativa(ex.Message);
+                        }
+
+                        objRestaurante.addCliente(nomeCliente);
+                        Console.WriteLine("Cadastro realizado com sucesso");
+                        pausa();
                         break;
 
                     case 2:
-                        int intQntPessoas;
+                        int qntPessoas = 0;
                         Cliente cliente;
                         Mesa mesa;
                         cabecalho();
                         Console.WriteLine("-------Requisitar-Mesa-------");
-                        Console.Write("Qual cliente será atendido?");
-                        //nomeCliente = Console.ReadLine()!;
-                        cliente = objRestaurante.localizarCliente(Console.ReadLine()!);
-                        Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
-                        qntPessoas = Console.ReadLine()!;
-
-                        if (String.IsNullOrEmpty(qntPessoas) || int.TryParse(qntPessoas, out intQntPessoas) || cliente == null)
-                            tentativa("Requisição inválida, insira informações válidas");
-                        else
+                        try
                         {
-                            mesa = requisitarMesa(intQntPessoas);
-                            objRestaurante.abrirRequisicao(intQntPessoas, mesa);
-                            Console.WriteLine("Requisição criada com sucesso");
-                            pausa();
+                            Console.Write("Qual cliente será atendido?");
+                            cliente = objRestaurante.localizarCliente(Console.ReadLine()!);
+                            if (cliente == null){
+                                throw new ArgumentNullException("Cliente não achado");
+                            }
+                            Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
+                            qntPessoas = int.Parse(Console.ReadLine()!); //FormatException
+                            if (qntPessoas < 0){
+                                throw new ArgumentOutOfRangeException("Valor negativo é inválido nesse contexto");
+                            }
                         }
+                        catch(ArgumentNullException an){
+                            novaTentativa(an.Message.ToString());
+                        }
+                        catch(FormatException)
+                        {
+                            novaTentativa("Quantidade de pessoas inválida");
+                        }
+                        catch(ArgumentOutOfRangeException ao){
+                            novaTentativa(ao.Message);
+                        }
+                        mesa = requisitarMesa(qntPessoas);
+                        objRestaurante.abrirRequisicao(qntPessoas, mesa);
+                        Console.WriteLine("Requisição criada com sucesso");
+                        pausa();
                         break;
 
                     case 3:
@@ -233,7 +232,7 @@ namespace staLuzia_Bulldogs
                         //nomeCliente = Console.ReadLine()!;
                         requisicao = objRestaurante.localizarRequisição(Console.ReadLine()!);
                         if (requisicao == null)
-                            tentativa("Nome inválido, insira informações válidas");
+                            novaTentativa("Nome inválido, insira informações válidas");
                         else
                         {
                             bool cond2 = true;
@@ -245,9 +244,9 @@ namespace staLuzia_Bulldogs
                                 Console.WriteLine("Quantos desse produto?");
                                 int.TryParse(Console.ReadLine()!, out qnt);
                                 addComida(resp, qnt, requisicao);
-                                
-                                Console.Clear();
-                                if(novamente() == false)
+
+                                //Console.Clear();
+                                if (novaTentativa("") == false)
                                     cond2 = false;
                             } while (cond2 == true);
                             Console.WriteLine("Pedido realizado com sucesso");
@@ -261,7 +260,7 @@ namespace staLuzia_Bulldogs
                         nomeCliente = Console.ReadLine()!;
                         requisicao = objRestaurante.localizarRequisição(nomeCliente);
                         if (String.IsNullOrEmpty(nomeCliente) || isNumeric(nomeCliente) || requisicao == null)
-                            tentativa("Nome inválido, insira informações válidas");
+                            novaTentativa("Nome inválido, insira informações válidas");
                         else
                         {
                             Console.WriteLine(objRestaurante.encerrarAtendimento(requisicao, nomeCliente));
