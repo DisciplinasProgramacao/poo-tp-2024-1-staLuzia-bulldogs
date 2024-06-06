@@ -28,47 +28,24 @@ namespace staLuzia_Bulldogs
             Cliente novo = new Cliente(nomeCliente);
             baseClientes.Add(nomeCliente, novo);
         }
-
-        // public bool atribuirRequisicao(Requisicao requisicao)
-        // {
-        //     if (!requisicao.statusReserva())
-        //     {
-        //         int qntPessoas = requisicao.obterQuantidade();
-        //         DateTime dataAgora = DateTime.Now;
-        //         foreach (Mesa mesa in listaMesa)
-        //         {
-        //             if (mesa.verificarCapacidade(qntPessoas) && !mesa.verificarDisponivel())
-        //             {
-        //                 requisicao.reservar(mesa);
-        //                 //requisicao.registrarEntrada(dataAgora);  Dúvida se registro de entrada é quando tem uma mesa, ou quando abre uma requisição
-        //                 return true;
-        //             }
-        //         }
-        //         if (!filaRequisicao.Contains(requisicao))
-        //             filaRequisicao.Enqueue(requisicao);
-        //         return false;
-
-        //     }
-        //     return false;
-        // }
         public Requisicao abrirRequisicao(Cliente cliente, int quantidadePessoas, Mesa mesa)
         {
             Requisicao requisicao = new Requisicao(cliente, quantidadePessoas, mesa);
             requisicao.registrarEntrada(DateTime.Now);
             return requisicao;
         }
-        public bool avancarFila()
-        {
-            if (filaEspera.Count != 0)
-            {
-                if (verificarDisponibilidade(filaEspera.Peek()))
-                {
-                    atribuirRequisicao(filaEspera.Dequeue());      
-                }
-                return true;
-            }
-            return false;
-        }
+        // public bool avancarFila()
+        // {
+        //     if (filaEspera.Count != 0)
+        //     {
+        //         if (verificarDisponibilidade(filaEspera.Peek()))
+        //         {
+        //             atribuirRequisicao(filaEspera.Dequeue());      
+        //         }
+        //         return true;
+        //     }
+        //     return false;
+        // }
         public Mesa mesaDisponivel(int qnt)
         {
             foreach (Mesa mesa in listaMesa)
