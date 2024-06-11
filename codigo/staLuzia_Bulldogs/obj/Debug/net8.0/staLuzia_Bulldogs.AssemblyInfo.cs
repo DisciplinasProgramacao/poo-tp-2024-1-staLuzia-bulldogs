@@ -13,11 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("staLuzia_Bulldogs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d995d3b5bd543acaa35966db1192e1a88be4b35")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0df6fcba2de21cfbcd9e7e0d2e0ffd1ed0ad1ff5")]
->>>>>>> temp
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6ec1d4d923a7f0492c38e9127084f3c71feab70")]
 [assembly: System.Reflection.AssemblyProductAttribute("staLuzia_Bulldogs")]
 [assembly: System.Reflection.AssemblyTitleAttribute("staLuzia_Bulldogs")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
