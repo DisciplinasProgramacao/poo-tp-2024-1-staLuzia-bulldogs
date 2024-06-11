@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace staLuzia_Bulldogs;
-class Cafeteria : Estabelecimento throws ClienteJaPossuiMesaException
+class Cafeteria : Estabelecimento, throws ClienteJaPossuiMesaException
 {
     public override bool atribuirRequisicao(Requisicao requisicao)
     {

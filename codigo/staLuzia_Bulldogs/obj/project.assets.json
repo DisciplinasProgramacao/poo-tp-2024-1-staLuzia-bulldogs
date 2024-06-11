@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\pedro\\.nuget\\packages\\": {}
+    "C:\\Users\\Rafael\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
+      "projectUniqueName": "C:\\Users\\Rafael\\Source\\Repos\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
       "projectName": "staLuzia_Bulldogs",
-      "projectPath": "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
-      "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\obj\\",
+      "projectPath": "C:\\Users\\Rafael\\Source\\Repos\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
+      "packagesPath": "C:\\Users\\Rafael\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Rafael\\Source\\Repos\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pedro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Rafael\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -40,11 +40,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -61,12 +56,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "frameworkReferences": {
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          }
-        },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }
