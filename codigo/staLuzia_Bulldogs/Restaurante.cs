@@ -11,7 +11,7 @@ namespace staLuzia_Bulldogs
         private Dictionary<string, Cliente> baseClientes;
         private Dictionary<string, Requisicao> baseRequisicao;
         private Mesa[] listaMesa;
-        private Queue<Requisicao> filaEspera;
+        private Queue<Cliente> filaEspera;
         public Restaurante()
         {
             baseClientes = new Dictionary<string, Cliente>();
@@ -28,7 +28,7 @@ namespace staLuzia_Bulldogs
                 new Mesa(8),
                 new Mesa(8)
             ];
-            filaEspera = new Queue<Requisicao>();
+            filaEspera = new Queue<Cliente>();
         }
 
         public Cliente localizarCliente(string nomeCliente)
@@ -78,6 +78,11 @@ namespace staLuzia_Bulldogs
                 }
             }
             return null!;
+        }
+
+        public void addFilaEspera(Cliente cliente)
+        {
+            filaEspera.Enqueue(cliente);
         }
         public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
         {

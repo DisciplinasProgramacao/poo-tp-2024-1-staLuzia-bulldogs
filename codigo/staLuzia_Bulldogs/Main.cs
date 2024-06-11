@@ -142,18 +142,6 @@ namespace staLuzia_Bulldogs
             return false;
         }
 
-        static Mesa requisitarMesa(int qntPessoas)
-        {
-            Mesa mesa;
-            mesa = objRestaurante.mesaDisponivel(qntPessoas);
-            if (mesa == null)
-            {
-                //add fila espera
-                return null!;
-            }
-            return mesa;
-        }
-
         static void criarCliente()
         {
             string nomeCliente;
@@ -190,7 +178,12 @@ namespace staLuzia_Bulldogs
             {
                 throw new ArgumentOutOfRangeException("Valor negativo é inválido nesse contexto");
             }
-            mesa = requisitarMesa(qntPessoas);
+            mesa = objRestaurante.mesaDisponivel(qntPessoas);
+            if (mesa == null)
+            {
+                objRestaurante.addFilaEspera(cliente);
+                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera");
+            }
             objRestaurante.abrirRequisicao(qntPessoas, mesa);
             Console.WriteLine("Requisição criada com sucesso");
             pausa();
