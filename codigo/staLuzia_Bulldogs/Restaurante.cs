@@ -8,79 +8,74 @@ namespace staLuzia_Bulldogs
 {
     class Restaurante : Estabelecimento
     {
-       private List<Mesa> listaMesa;
-       private Queue<Requisicao> filaRequisicao;
-        public Restaurante(List<Mesa> listaMesa)
+        private Dictionary<string, Cliente> baseClientes;
+        private Dictionary<string, Requisicao> baseRequisicao;
+        private Mesa[] listaMesa;
+        private Queue<Requisicao> filaEspera;
+        public Restaurante()
         {
-            this.listaMesa = listaMesa;
-            filaRequisicao = new Queue<Cliente>();
+            baseClientes = new Dictionary<string, Cliente>();
+            baseRequisicao = new Dictionary<string, Requisicao>();
+            listaMesa = new Mesa[10];
+            filaEspera = new Queue<Requisicao>();
         }
-        public bool atribuirRequisicao(Requisicao requisicao)
-        {
-            if (!requisicao.statusReserva())
-            {
-                int qntPessoas = requisicao.obterQuantidade();
-                DateTime dataAgora = DateTime.Now;
-                foreach(Mesa mesa in listaMesa)
-                {
-                    if(mesa.verificarCapacidade(qntPessoas) && !mesa.verificarDisponivel())
-                    {
-                        requisicao.reservar(mesa);
-                        //requisicao.registrarEntrada(dataAgora);  Dúvida se registro de entrada é quando tem uma mesa, ou quando abre uma requisição
-                        return true;
-                    }
-                }
-                if(!filaRequisicao.Contains(requisicao))
-                    filaRequisicao.Enqueue(requisicao);
-                return false;
 
-            }
+        public Cliente localizarCliente(string nomeCliente){
+            if(baseClientes.ContainsKey(nomeCliente))
+                return baseClientes[nomeCliente];
+            return null!;
         }
-        public Requisicao abrirRequisicao(Cliente cliente, DateTime dataEntrada, int quantidadePessoas)
+
+        public Requisicao localizarRequisição(string nomeCliente){
+            if(baseRequisicao.ContainsKey(nomeCliente))
+                return baseRequisicao[nomeCliente];
+            return null!;
+        }
+
+        public void addCliente(string nomeCliente){
+            Cliente novo = new Cliente(nomeCliente);
+            baseClientes.Add(nomeCliente, novo);
+        }
+
+        public Requisicao abrirRequisicao(int quantidadePessoas, Mesa mesa)
         {
-            Requisicao requisicao = new Requisicao(cliente, quantidadePessoas);
-            requisicao.registrarEntrada(dataEntrada);
+            Requisicao requisicao = new Requisicao(quantidadePessoas, mesa);
             return requisicao;
         }
         public bool avancarFila()
         {
-            if(filaRequisicao.Count != 0)
+            if (filaEspera.Count != 0)
             {
-                if (verificarDisponibilidade(filaRequisicao.Peek())){
-                    atribuirRequisicao(filaRequisicao.Dequeue();)      
-                }
+                // if (verificarDisponibilidade(filaEspera.Peek()))
+                // {
+                //     atribuirRequisicao(filaEspera.Dequeue());      
+                // }
                 return true;
             }
             return false;
         }
-        public bool verificarDisponibilidade(int qnt){
-            foreach(Mesa mesa in listaMesa)
-                {
-                    if(mesa.verificarCapacidade(qnt) && !mesa.verificarDisponivel())
-                    {
-                        return true;
-                    }
-                }
-                return false;
-        }
-        public string conferirStatusMesas()
+        public Mesa mesaDisponivel(int qnt)
         {
-            StringBuilder status = new StringBuilder();
-            foreach(Mesa mesa in listaMesa)
+            foreach (Mesa mesa in listaMesa)
             {
-                status.AppendLine(String.Format("Capacidade Mesa: {0}, Disponibilidade: {1}",mesa.obterCapacidade(), mesa.verificarDisponibilidade()));
+                if (mesa.verificarCapacidade(qnt) && !mesa.verificarDisponivel())
+                {
+                    return mesa;
+                }
             }
-            return status.ToString();
+            return null!;
         }
-        public bool encerrarAtendimento(Requisicao requisicao){
+        public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
+        {
             if (requisicao.verificarStatus())
             {
                 requisicao.registrarSaida();
-                requisicao.obterMesa().alternarStatus();
-                requisicao.Mesa = null;
-                return true;
+                requisicao.obterMesa().alternarStatus(false);
+                baseRequisicao.Remove(nomeCliente);
+                avancarFila();
+                return requisicao.fecharPedido();
             }
-            return false;
+            return "Requisição já fechada";
         }
     }
 }

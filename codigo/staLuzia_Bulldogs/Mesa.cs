@@ -9,20 +9,16 @@ namespace staLuzia_Bulldogs
     internal class Mesa
     {
         private int capacidade;
-        private bool reserva;
+        private bool reservado;
 
         public Mesa(int capacidade)
         {
             this.capacidade = capacidade;
-            reserva = false;
-        }
-        public int ObterCapacidade()
-        {
-            return capacidade;
+            reservado = false;
         }
         public bool verificarDisponivel()
         {
-            if(reserva == false)
+            if(reservado == false)
             {
                 return true;
             }
@@ -30,11 +26,15 @@ namespace staLuzia_Bulldogs
         }
         public bool verificarCapacidade(int quantidadePessoas)
         {
-            if(quantidadePessoas <= ObterCapacidade())
+            if(quantidadePessoas <= capacidade)
             {
                 return true;
             }
             return false;
-        }        
+        }   
+
+        public void alternarStatus(bool status){
+            reservado = status;
+        }     
     }
 }

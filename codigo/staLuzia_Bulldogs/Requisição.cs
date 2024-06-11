@@ -12,51 +12,44 @@ namespace staLuzia_Bulldogs
     {
         private DateTime dataEntrada;
         private DateTime dataSaida;
-        private Cliente cliente;
         private int quantPessoas;
         private Mesa mesa;
-        public Requisicao(cliente cliente, int quantPessoas)
+        private Pedido pedido;
+        private bool status;
+
+        public Requisicao(int quantPessoas, Mesa mesa)
         {
-            this.cliente = cliente;
+            dataEntrada = DateTime.Now;
             this.quantPessoas = quantPessoas;
+            this.mesa = mesa;
+            pedido = new Pedido();
+            status = false;
         }
 
-        public void registrarEntrada(DateTime dataEntrada)
-        {
-            this.dataEntrada = DateTime.Now;
+        public bool verificarStatus(){
+            return status;
         }
-        public void registrarSaida(DateTime dataSaida)
+
+        public Mesa obterMesa(){
+            return mesa;
+        }
+
+        public void registrarSaida()
         {
             dataSaida = DateTime.Now;
         }
-        public Mesa reservar (Mesa mesa)
-        {
-            mesa.alternarStatus();
-            return mesa;
-        }
+        
         public bool alternarStatus()
         {
-            if(statusReserva()==true)
-            {
-                return false;
-            }
-            return true;
+            return (status == true) ? status = false : status = true;
         }
-        public Mesa obterMesa()
-        {
-            return mesa;
+
+        public void updatePedido(string nome, int valor, int qnt){
+            pedido.addComida(nome, valor, qnt);
         }
-        public bool statusReserva()
-        {
-            return mesa.verificarDisponivel();
-        }
-        public bool verificarStatus()
-        {
-           return statusReserva();
-        }
-        public int obterQuantidade()
-        {
-            return mesa.ObterCapacidade();
+
+        public string fecharPedido(){
+            return pedido.relatiorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
         }
     }
 }
