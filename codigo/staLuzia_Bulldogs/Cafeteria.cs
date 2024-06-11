@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace staLuzia_Bulldogs;
-class Cafeteria : Estabelecimento, throws ClienteJaPossuiMesaException
+class Cafeteria : Estabelecimento
 {
     public override bool atribuirRequisicao(Requisicao requisicao)
     {
@@ -28,7 +28,7 @@ class Cafeteria : Estabelecimento, throws ClienteJaPossuiMesaException
         }
         else
         {
-            throw new Exception ClienteJaPossuiMesaException("dfdasd");
+            return false;
         }
     }
 }
