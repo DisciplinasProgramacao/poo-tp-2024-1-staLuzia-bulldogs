@@ -20,7 +20,7 @@ namespace staLuzia_Bulldogs
 
         static void cabecalho()
         {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("====== Restaurante Sesas ======");
         }
         static bool novaTentativa(string contexto)
@@ -173,7 +173,7 @@ namespace staLuzia_Bulldogs
 
         static void criarRequisicao()
         {
-            int qntPessoas = 0;
+            int qntPessoas;
             Cliente cliente;
             Mesa mesa;
             cabecalho();
@@ -325,7 +325,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (ArgumentNullException an)
                         {
-                            if(novaTentativa(an.Message.ToString()))
+                            if (novaTentativa(an.Message.ToString()))
                                 fecharAtendimento();
                         }
                         break;
