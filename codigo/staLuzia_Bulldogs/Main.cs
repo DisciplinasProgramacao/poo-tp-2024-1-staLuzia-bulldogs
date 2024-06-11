@@ -14,7 +14,7 @@ namespace staLuzia_Bulldogs
 
         static void pausa()
         {
-            Console.Write("\nTecle Enter para continuar.");
+            Console.WriteLine("(Aperte qualquer tecla para continuar)");
             Console.ReadLine();
         }
 
@@ -336,6 +336,7 @@ namespace staLuzia_Bulldogs
 
                     default:
                         Console.WriteLine("Opção inválida, favor tentar novamente");
+                        pausa();
                         break;
                 }
             } while (cond == true);
