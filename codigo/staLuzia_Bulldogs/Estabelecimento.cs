@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace staLuzia_Bulldogs
 {
-    internal class Estabelecimento
+    internal abstract class Estabelecimento
     {
         private Dictionary<string, Cliente> baseClientes;
         private Dictionary<string, Requisicao> baseRequisicao;
