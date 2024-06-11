@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace staLuzia_Bulldogs
 {
-    class Restaurante
+    class Restaurante : Estabelecimento
     {
        private List<Mesa> listaMesa;
        private Queue<Requisicao> filaRequisicao;
