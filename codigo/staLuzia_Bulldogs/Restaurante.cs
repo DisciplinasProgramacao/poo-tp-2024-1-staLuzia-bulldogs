@@ -16,23 +16,37 @@ namespace staLuzia_Bulldogs
         {
             baseClientes = new Dictionary<string, Cliente>();
             baseRequisicao = new Dictionary<string, Requisicao>();
-            listaMesa = new Mesa[10];
+            listaMesa = [
+                new Mesa(4),
+                new Mesa(4),
+                new Mesa(4),
+                new Mesa(4),
+                new Mesa(6),
+                new Mesa(6),
+                new Mesa(6),
+                new Mesa(6),
+                new Mesa(8),
+                new Mesa(8)
+            ];
             filaEspera = new Queue<Requisicao>();
         }
 
-        public Cliente localizarCliente(string nomeCliente){
-            if(baseClientes.ContainsKey(nomeCliente))
+        public Cliente localizarCliente(string nomeCliente)
+        {
+            if (baseClientes.ContainsKey(nomeCliente))
                 return baseClientes[nomeCliente];
             return null!;
         }
 
-        public Requisicao localizarRequisição(string nomeCliente){
-            if(baseRequisicao.ContainsKey(nomeCliente))
+        public Requisicao localizarRequisição(string nomeCliente)
+        {
+            if (baseRequisicao.ContainsKey(nomeCliente))
                 return baseRequisicao[nomeCliente];
             return null!;
         }
 
-        public void addCliente(string nomeCliente){
+        public void addCliente(string nomeCliente)
+        {
             Cliente novo = new Cliente(nomeCliente);
             baseClientes.Add(nomeCliente, novo);
         }

@@ -14,5 +14,9 @@ namespace staLuzia_Bulldogs
         {
             this.nome = nome;
         }
+
+        public override string ToString(){
+            return this.nome;
+        }
     }
 }
