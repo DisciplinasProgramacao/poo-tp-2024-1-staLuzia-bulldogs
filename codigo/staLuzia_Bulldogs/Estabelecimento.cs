@@ -10,9 +10,9 @@ namespace staLuzia_Bulldogs
 {
     internal abstract class Estabelecimento
     {
-        private Dictionary<string, Cliente> baseClientes;
-        private Dictionary<string, Requisicao> baseRequisicao;
-        private Cardapio cardapio;
+        protected Dictionary<string, Cliente> baseClientes;
+        protected Dictionary<string, Requisicao> baseRequisicao;
+        protected Cardapio cardapio;
         protected List<Mesa> listaMesa;
 
         public Estabelecimento(){
@@ -35,9 +35,7 @@ namespace staLuzia_Bulldogs
             return requisicao;
         }
 
-        public Comida selecionarProduto(int resp){
-            cardapio.Equals(resp);
-        }
+        public abstract Comida selecionarProduto(int resp);
 
         public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
         {

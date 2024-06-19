@@ -28,6 +28,10 @@ namespace staLuzia_Bulldogs
             status = false;
         }
 
+        public void ocuparMesa(Mesa mesa){
+            this.mesa = mesa;
+        }
+
         public bool verificarStatus()
         {
             return status;
@@ -61,7 +65,7 @@ namespace staLuzia_Bulldogs
             }
             catch (ArgumentNullException) 
             {
-                
+
             }
         }
 

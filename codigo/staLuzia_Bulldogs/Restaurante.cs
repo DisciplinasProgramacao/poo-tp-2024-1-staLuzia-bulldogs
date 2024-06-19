@@ -8,13 +8,9 @@ namespace staLuzia_Bulldogs
 {
     class Restaurante : Estabelecimento
     {
-        private Dictionary<string, Cliente> baseClientes;
-        private Dictionary<string, Requisicao> baseRequisicao;
         private Queue<Cliente> filaEspera;
         public Restaurante()
         {
-            baseClientes = new Dictionary<string, Cliente>();
-            baseRequisicao = new Dictionary<string, Requisicao>();
             listaMesa = [
                 new Mesa(4),
                 new Mesa(4),
@@ -40,6 +36,10 @@ namespace staLuzia_Bulldogs
             {
                 throw new ArgumentNullException("Sem mesa disponível");
             }
+        }
+
+        public override Comida selecionarProduto(int resp){
+            return cardapio.produtoRestaurante(resp);
         }
 
         public Cliente localizarCliente(string nomeCliente)

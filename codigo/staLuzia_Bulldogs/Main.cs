@@ -91,22 +91,6 @@ namespace staLuzia_Bulldogs
         {
             Comida comida = objEstabelecimento.selecionarProduto(resp);
             requisicao.updatePedido(comida, qnt);
-
-
-            // switch (resp)
-            // {
-            //         ("Moqueca de Palmito", 32, qnt);
-            //         ("Falafel Assado", 20, qnt);
-            //         ("Salada Primavera com Macarrão Konjac", 32, qnt);
-            //         ("Escondidinho de Inhame", 32, qnt);
-            //         ("Strogonoff de Cogumelos", 32, qnt);
-            //         ("Caçarola de legumes", 32, qnt);
-            //         ("Água", 3, qnt);
-            //         ("Copo de suco", 7, qnt);
-            //         ("Refrigerante orgânico", 7, qnt);
-            //         ("Cerveja vegana", 9, qnt);
-            //         ("Taça de vinho vegano", 18, qnt);
-            // }
         }
 
         static bool isNumeric(string value)
