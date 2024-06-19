@@ -23,25 +23,11 @@ namespace staLuzia_Bulldogs
             Console.Clear();
             Console.WriteLine("====== Restaurante Sesas ======");
         }
-        static bool novaTentativa(string contexto)
+        static void avisoErro(string contexto)
         {
-            Console.WriteLine($"\n## {contexto}, insira informações válidas ##");
-            Console.WriteLine("\nDeseja tentar novamente? (S/N)");
-            Console.Write("RESPOSTA: ");
-            string resp = Console.ReadLine()!;
-            if (resp == "n" || resp == "N")
-            {
-                return false;
-            }
-            else if (resp == "s" || resp == "S")
-            {
-                return true;
-            }
-            else
-            {
-                //Console.WriteLine("\nResposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
-                return novaTentativa("Resposta inválida");
-            }
+            Console.WriteLine($"\n## {contexto}, insira informações validas ##");
+            Console.WriteLine("(Aperte qualquer tecla para continuar)");
+            Console.ReadKey();
         }
 
         static int menuPrincipalRest()
@@ -214,10 +200,9 @@ namespace staLuzia_Bulldogs
                         {
                             criarCliente();
                         }
-                        catch (FormatException ex)
+                        catch (FormatException fx)
                         {
-                            Console.WriteLine($"\n## {ex.Message}, insira informações válidas ##\n(Aperte qualquer tecla para continuar)");
-                            Console.ReadKey();
+                            avisoErro(fx.Message);
                         }
                         break;
 
@@ -228,9 +213,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
-
-                            if (novaTentativa(ex.Message))
-                                criarRequisicao();
+                            avisoErro(ex.Message);
                         }
                         break;
 
@@ -241,8 +224,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
-                            if (novaTentativa(ex.Message))
-                                criarRequisicao();
+                            avisoErro(ex.Message);
                         }
                         break;
 
@@ -253,8 +235,8 @@ namespace staLuzia_Bulldogs
                         }
                         catch (ArgumentNullException an)
                         {
-                            if (novaTentativa(an.Message))
-                                fecharAtendimento();
+                            avisoErro(an.Message);
+
                         }
                         break;
 
@@ -289,8 +271,7 @@ namespace staLuzia_Bulldogs
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
 
-                            if (novaTentativa(ex.Message))
-                                criarRequisicao();
+                            avisoErro(ex.Message);
                         }
                         break;
 
@@ -301,8 +282,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
-                            if (novaTentativa(ex.Message))
-                                abrirPedido();
+                            avisoErro(ex.Message);
                         }
                         break;
 
@@ -313,8 +293,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (ArgumentNullException an)
                         {
-                            if (novaTentativa(an.Message))
-                                fecharAtendimento();
+                            avisoErro(an.Message);
                         }
                         break;
 
@@ -362,7 +341,7 @@ namespace staLuzia_Bulldogs
                 Console.WriteLine("===========================");
                 Console.Write("Resposta: ");
                 opcaoMenu = int.Parse(Console.ReadLine()!);
-                if(opcaoMenu < 1 || opcaoMenu > 2)
+                if (opcaoMenu < 1 || opcaoMenu > 2)
                     throw new FormatException();
             }
             catch (FormatException)
@@ -376,7 +355,8 @@ namespace staLuzia_Bulldogs
             {
                 mainRestaurante();
             }
-            else if(opcaoMenu == 2){
+            else if (opcaoMenu == 2)
+            {
                 mainCafeteria();
             }
         }
