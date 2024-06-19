@@ -10,7 +10,7 @@ namespace staLuzia_Bulldogs
 {
     internal class Program
     {
-        static Restaurante objRestaurante = new Restaurante();
+        static Estabelecimento objEstabelecimento = null!;
 
         static void pausa()
         {
@@ -20,13 +20,14 @@ namespace staLuzia_Bulldogs
 
         static void cabecalho()
         {
-            //Console.Clear();
+            Console.Clear();
             Console.WriteLine("====== Restaurante Sesas ======");
         }
         static bool novaTentativa(string contexto)
         {
-            Console.WriteLine(contexto + ", insira informações válidas");
-            Console.Write("Deseja tentar novamente? (S/N)");
+            Console.WriteLine($"\n## {contexto}, insira informações válidas ##");
+            Console.WriteLine("\nDeseja tentar novamente? (S/N)");
+            Console.Write("RESPOSTA: ");
             string resp = Console.ReadLine()!;
             if (resp == "n" || resp == "N")
             {
@@ -38,22 +39,39 @@ namespace staLuzia_Bulldogs
             }
             else
             {
-                Console.WriteLine("Resposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
-                return novaTentativa(contexto);
+                //Console.WriteLine("\nResposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
+                return novaTentativa("Resposta inválida");
             }
         }
 
-        static int menuPrincipal()
+        static int menuPrincipalRest()
         {
             int opcaoMenu;
             cabecalho();
             Console.WriteLine("===============================");
             Console.WriteLine("Esolha uma das opções a seguir: \n");
-            Console.WriteLine("1) Cadastrar cliente \n2) Requisitar mesa");
+            Console.WriteLine("1) Cadastrar cliente \n2) Abrir Requisicao");
             Console.WriteLine("-------------------------------");
             Console.WriteLine("3) Abrir Pedido \n4) Fechar Atendimento");
             Console.WriteLine("-------------------------------");
             Console.WriteLine("5) Sair");
+            Console.WriteLine("===============================");
+            Console.Write("Opção desejada: ");
+            int.TryParse(Console.ReadLine(), out opcaoMenu);
+            return opcaoMenu;
+        }
+
+        static int menuPrincipalCafe()
+        {
+            int opcaoMenu;
+            cabecalho();
+            Console.WriteLine("===============================");
+            Console.WriteLine("Esolha uma das opções a seguir: \n");
+            Console.WriteLine("1) Abrir Requisicao");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("2) Abrir Pedido \n3) Fechar Atendimento");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("4) Sair");
             Console.WriteLine("===============================");
             Console.Write("Opção desejada: ");
             int.TryParse(Console.ReadLine(), out opcaoMenu);
@@ -87,47 +105,10 @@ namespace staLuzia_Bulldogs
             return opcaoMenu;
         }
 
-        static bool addComida(int resp, int qnt, Requisicao requisicao)
+        static void addComida(int resp, int qnt, Requisicao requisicao)
         {
-            switch (resp)
-            {
-                case 1:
-                    requisicao.updatePedido("Moqueca de Palmito", 32, qnt);
-                    break;
-                case 2:
-                    requisicao.updatePedido("Falafel Assado", 20, qnt);
-                    break;
-                case 3:
-                    requisicao.updatePedido("Salada Primavera com Macarrão Konjac", 32, qnt);
-                    break;
-                case 4:
-                    requisicao.updatePedido("Escondidinho de Inhame", 32, qnt);
-                    break;
-                case 5:
-                    requisicao.updatePedido("Strogonoff de Cogumelos", 32, qnt);
-                    break;
-                case 6:
-                    requisicao.updatePedido("Caçarola de legumes", 32, qnt);
-                    break;
-                case 7:
-                    requisicao.updatePedido("Água", 3, qnt);
-                    break;
-                case 8:
-                    requisicao.updatePedido("Copo de suco", 7, qnt);
-                    break;
-                case 9:
-                    requisicao.updatePedido("Refrigerante orgânico", 7, qnt);
-                    break;
-                case 10:
-                    requisicao.updatePedido("Cerveja vegana", 9, qnt);
-                    break;
-                case 11:
-                    requisicao.updatePedido("Taça de vinho vegano", 18, qnt);
-                    break;
-                case 12:
-                    return false;
-            }
-            return true;
+            Comida comida = objEstabelecimento.selecionarProduto(resp);
+            requisicao.updatePedido(comida, qnt);
         }
 
         static bool isNumeric(string value)
@@ -142,32 +123,21 @@ namespace staLuzia_Bulldogs
             return false;
         }
 
-        static Mesa requisitarMesa(int qntPessoas)
-        {
-            Mesa mesa;
-            mesa = objRestaurante.mesaDisponivel(qntPessoas);
-            if (mesa == null)
-            {
-                //add fila espera
-                return null!;
-            }
-            return mesa;
-        }
-
         static void criarCliente()
         {
             string nomeCliente;
             cabecalho();
             Console.WriteLine("-------Cadastro-------");
-            Console.Write("Qual o nome do cliente: ");
+            Console.WriteLine("Qual o nome do cliente: ");
+            Console.Write("RESPOSTA: ");
             nomeCliente = Console.ReadLine()!;
             if (isNumeric(nomeCliente))
             {
                 throw new FormatException("Nome inválido");
             }
 
-            objRestaurante.addCliente(nomeCliente);
-            Console.WriteLine("Cadastro realizado com sucesso");
+            objEstabelecimento.addCliente(nomeCliente);
+            Console.WriteLine("\nCadastro realizado com sucesso");
             pausa();
         }
 
@@ -175,24 +145,25 @@ namespace staLuzia_Bulldogs
         {
             int qntPessoas;
             Cliente cliente;
-            Mesa mesa;
             cabecalho();
-            Console.WriteLine("-------Requisitar-Mesa-------");
-            Console.Write("Qual cliente será atendido?");
-            cliente = objRestaurante.localizarCliente(Console.ReadLine()!);
+            Console.WriteLine("-------Abrir-Requisicao-------");
+            Console.WriteLine("Qual cliente será atendido?");
+            Console.Write("RESPOSTA: ");
+            cliente = objEstabelecimento.localizarCliente(Console.ReadLine()!);
             if (cliente == null)
             {
                 throw new ArgumentNullException("Cliente não achado");
             }
-            Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
+            Console.WriteLine("\nQual a quantidade de pessoas que pessoas que serão atendidas?");
+            Console.Write("RESPOSTA: ");
             qntPessoas = int.Parse(Console.ReadLine()!); //FormatException
             if (qntPessoas < 0)
             {
                 throw new ArgumentOutOfRangeException("Valor negativo é inválido nesse contexto");
             }
-            mesa = requisitarMesa(qntPessoas);
-            objRestaurante.abrirRequisicao(qntPessoas, mesa);
-            Console.WriteLine("Requisição criada com sucesso");
+
+            objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
+            Console.WriteLine("\nRequisição criada com sucesso");
             pausa();
         }
 
@@ -203,15 +174,17 @@ namespace staLuzia_Bulldogs
             int respPedido;
             cabecalho();
             Console.WriteLine("-------Abrir-Pedido-------");
-            Console.Write("Qual cliente fará um pedido?");
-            requisicao = objRestaurante.localizarRequisição(Console.ReadLine()!);
+            Console.WriteLine("Qual cliente fará um pedido?");
+            Console.Write("RESPOSTA: ");
+            requisicao = objEstabelecimento.localizarRequisição(Console.ReadLine()!);
             if (requisicao == null)
             {
                 throw new ArgumentNullException("Nome inválido, insira informações válidas");
             }
 
             respPedido = menuComidas();
-            Console.WriteLine("Quantos desse produto?");
+            Console.WriteLine("\nQuantos desse produto?");
+            Console.Write("RESPOSTA: ");
             int.TryParse(Console.ReadLine()!, out qntProdutos); //Format Exception
 
             if (qntProdutos < 0)
@@ -220,37 +193,19 @@ namespace staLuzia_Bulldogs
             }
             addComida(respPedido, qntProdutos, requisicao);
 
-            Console.WriteLine("Pedido realizado com sucesso");
+            Console.WriteLine("\nPedido realizado com sucesso");
             pausa();
         }
 
-        static void fecharAtendimento()
+        static void mainRestaurante()
         {
-            Requisicao requisicao;
-            string nomeCliente;
-            cabecalho();
-            Console.WriteLine("-------Fechar-Atendimento-------");
-            Console.Write("Qual cliente fechará o pedido?");
-            nomeCliente = Console.ReadLine()!;
-            requisicao = objRestaurante.localizarRequisição(nomeCliente);
-            if (requisicao == null)
-            {
-                throw new ArgumentNullException("Nome inválido, insira informações válidas");
-            }
-            string result = objRestaurante.encerrarAtendimento(requisicao, nomeCliente);
-            Console.WriteLine(result);
-            Console.WriteLine("Atendimento fechado com sucesso");
-            pausa();
-        }
-
-        static void Main(string[] args)
-        {
+            objEstabelecimento = new Restaurante();
             bool cond = true;
             int opcaoMenu;
 
             do
             {
-                opcaoMenu = menuPrincipal();
+                opcaoMenu = menuPrincipalRest();
 
                 switch (opcaoMenu)
                 {
@@ -261,59 +216,32 @@ namespace staLuzia_Bulldogs
                         }
                         catch (FormatException ex)
                         {
-                            if (novaTentativa(ex.Message.ToString()))
-                                criarCliente();
+                            Console.WriteLine($"\n## {ex.Message}, insira informações válidas ##\n(Aperte qualquer tecla para continuar)");
+                            Console.ReadKey();
                         }
                         break;
 
                     case 2:
-                        bool tentativa = false;
-
                         try
                         {
                             criarRequisicao();
                         }
-                        catch (ArgumentNullException an)
+                        catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
-                            tentativa = novaTentativa(an.Message.ToString());
-                        }
-                        catch (FormatException)
-                        {
-                            tentativa = novaTentativa("Quantidade de pessoas inválida");
-                        }
-                        catch (ArgumentOutOfRangeException ao)
-                        {
-                            tentativa = novaTentativa(ao.Message.ToString());
-                        }
-                        finally
-                        {
-                            if (tentativa)
+
+                            if (novaTentativa(ex.Message))
                                 criarRequisicao();
                         }
                         break;
 
                     case 3:
-                        tentativa = false;
-
                         try
                         {
                             abrirPedido();
                         }
-                        catch (ArgumentNullException an)
+                        catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
-                            tentativa = novaTentativa(an.Message.ToString());
-                        }
-                        catch (FormatException)
-                        {
-                            tentativa = novaTentativa("Quantidade de produtos inválido");
-                        }
-                        catch (ArgumentOutOfRangeException ao)
-                        {
-                            tentativa = novaTentativa(ao.Message.ToString());
-                        }
-                        finally
-                        {
-                            if (tentativa)
+                            if (novaTentativa(ex.Message))
                                 criarRequisicao();
                         }
                         break;
@@ -325,7 +253,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (ArgumentNullException an)
                         {
-                            if (novaTentativa(an.Message.ToString()))
+                            if (novaTentativa(an.Message))
                                 fecharAtendimento();
                         }
                         break;
@@ -340,6 +268,118 @@ namespace staLuzia_Bulldogs
                         break;
                 }
             } while (cond == true);
+        }
+
+        static void mainCafeteria()
+        {
+            objEstabelecimento = new Restaurante();
+            bool cond = true;
+            int opcaoMenu;
+
+            do
+            {
+                opcaoMenu = menuPrincipalCafe();
+
+                switch (opcaoMenu)
+                {
+                    case 1:
+                        try
+                        {
+                            criarRequisicao();
+                        }
+                        catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
+                        {
+
+                            if (novaTentativa(ex.Message))
+                                criarRequisicao();
+                        }
+                        break;
+
+                    case 2:
+                        try
+                        {
+                            abrirPedido();
+                        }
+                        catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
+                        {
+                            if (novaTentativa(ex.Message))
+                                abrirPedido();
+                        }
+                        break;
+
+                    case 3:
+                        try
+                        {
+                            fecharAtendimento();
+                        }
+                        catch (ArgumentNullException an)
+                        {
+                            if (novaTentativa(an.Message))
+                                fecharAtendimento();
+                        }
+                        break;
+
+                    case 4:
+                        cond = false;
+                        break;
+
+                    default:
+                        Console.WriteLine("Opção inválida, favor tentar novamente");
+                        break;
+                }
+            } while (cond == true);
+        }
+
+        static void fecharAtendimento()
+        {
+            Requisicao requisicao;
+            string nomeCliente;
+            cabecalho();
+            Console.WriteLine("-------Fechar-Atendimento-------");
+            Console.Write("Qual cliente fechará o pedido?");
+            nomeCliente = Console.ReadLine()!;
+            requisicao = objEstabelecimento.localizarRequisição(nomeCliente);
+            if (requisicao == null)
+            {
+                throw new ArgumentNullException("Nome inválido, insira informações válidas");
+            }
+            string result = objEstabelecimento.encerrarAtendimento(requisicao, nomeCliente);
+            Console.WriteLine(result);
+            Console.WriteLine("Atendimento fechado com sucesso");
+            pausa();
+        }
+
+        static void Main(string[] args)
+        {
+            int opcaoMenu = 0;
+
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("Bem vindo ao Sesa's System");
+                Console.WriteLine("===========================");
+                Console.WriteLine("Qual estabelecimento será usado?");
+                Console.WriteLine("1) Restaurante\n2) Cafeteria");
+                Console.WriteLine("===========================");
+                Console.Write("Resposta: ");
+                opcaoMenu = int.Parse(Console.ReadLine()!);
+                if(opcaoMenu < 1 || opcaoMenu > 2)
+                    throw new FormatException();
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Resposta inválida, favor tentar novamente");
+                Console.ReadKey();
+                Main(args);
+            }
+
+            if (opcaoMenu == 1)
+            {
+                mainRestaurante();
+            }
+            else if(opcaoMenu == 2){
+                mainCafeteria();
+            }
         }
     }
 }

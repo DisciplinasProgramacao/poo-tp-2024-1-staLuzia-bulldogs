@@ -6,16 +6,12 @@ using System.Threading.Tasks;
 
 namespace staLuzia_Bulldogs
 {
-    class Restaurante
+    class Restaurante : Estabelecimento
     {
-        private Dictionary<string, Cliente> baseClientes;
-        private Dictionary<string, Requisicao> baseRequisicao;
-        private Mesa[] listaMesa;
-        private Queue<Requisicao> filaEspera;
+        private Queue<Cliente> filaEspera;
         public Restaurante()
         {
-            baseClientes = new Dictionary<string, Cliente>();
-            baseRequisicao = new Dictionary<string, Requisicao>();
+            cardapio = new Cardapio(ETipo.restaurante);
             listaMesa = [
                 new Mesa(4),
                 new Mesa(4),
@@ -28,46 +24,43 @@ namespace staLuzia_Bulldogs
                 new Mesa(8),
                 new Mesa(8)
             ];
-            filaEspera = new Queue<Requisicao>();
+            filaEspera = new Queue<Cliente>();
         }
 
-        public Cliente localizarCliente(string nomeCliente)
+        public override Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
         {
-            if (baseClientes.ContainsKey(nomeCliente))
-                return baseClientes[nomeCliente];
-            return null!;
-        }
-
-        public Requisicao localizarRequisição(string nomeCliente)
-        {
-            if (baseRequisicao.ContainsKey(nomeCliente))
-                return baseRequisicao[nomeCliente];
-            return null!;
-        }
-
-        public void addCliente(string nomeCliente)
-        {
-            Cliente novo = new Cliente(nomeCliente);
-            baseClientes.Add(nomeCliente, novo);
-        }
-
-        public Requisicao abrirRequisicao(int quantidadePessoas, Mesa mesa)
-        {
-            Requisicao requisicao = new Requisicao(quantidadePessoas, mesa);
+            Mesa mesa;
+            mesa = mesaDisponivel(quantidadePessoas);
+            if (mesa == null)
+            {
+                addFilaEspera(cliente);
+                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera");
+            }
+            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
+            requisicao.ocuparMesa(mesa);
             return requisicao;
         }
-        public bool avancarFila()
+
+
+
+        public override Mesa alocarMesa(Requisicao requisicao)
         {
-            if (filaEspera.Count != 0)
+            try
             {
-                // if (verificarDisponibilidade(filaEspera.Peek()))
-                // {
-                //     atribuirRequisicao(filaEspera.Dequeue());      
-                // }
-                return true;
+                return listaMesa.Where(m => m.verificarDisponivel()).Where(m => m.verificarCapacidade(requisicao.obterQuantidade())).FirstOrDefault()!;
             }
-            return false;
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentNullException("Sem mesa disponível");
+            }
         }
+
+
+
+
+
+
+
         public Mesa mesaDisponivel(int qnt)
         {
             foreach (Mesa mesa in listaMesa)
@@ -79,17 +72,10 @@ namespace staLuzia_Bulldogs
             }
             return null!;
         }
-        public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
+
+        public void addFilaEspera(Cliente cliente)
         {
-            if (requisicao.verificarStatus())
-            {
-                requisicao.registrarSaida();
-                requisicao.obterMesa().alternarStatus(false);
-                baseRequisicao.Remove(nomeCliente);
-                avancarFila();
-                return requisicao.fecharPedido();
-            }
-            return "Requisição já fechada";
+            filaEspera.Enqueue(cliente);
         }
     }
 }
