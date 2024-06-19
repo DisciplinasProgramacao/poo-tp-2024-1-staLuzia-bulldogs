@@ -6,5 +6,5 @@ TP1:
 TP2:
 <img src="./TP2-TBPOO.jpeg">
 TP3:
-<img src="./Trabalho Prático 3 - POO.jpg">
+<img src="./Trabalho Prático 3 - POO.jpeg">
 
