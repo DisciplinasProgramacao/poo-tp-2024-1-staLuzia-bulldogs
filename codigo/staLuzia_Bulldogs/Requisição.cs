@@ -13,28 +13,33 @@ namespace staLuzia_Bulldogs
         private DateTime dataEntrada;
         private DateTime dataSaida;
         private int qntPessoas;
+        private Cliente cliente;
         private Mesa mesa;
         private Pedido pedido;
         private bool status;
 
-        public Requisicao(int qntPessoas, Mesa mesa)
+        public Requisicao(int qntPessoas, Cliente cliente)
         {
             dataEntrada = DateTime.Now;
             this.qntPessoas = qntPessoas;
-            this.mesa = mesa;
+            this.cliente = cliente;
+            mesa = null!;
             pedido = new Pedido();
             status = false;
         }
 
-        public bool verificarStatus(){
+        public bool verificarStatus()
+        {
             return status;
         }
 
-        public int obterQuantidade(){
+        public int obterQuantidade()
+        {
             return qntPessoas;
         }
 
-        public Mesa obterMesa(){
+        public Mesa obterMesa()
+        {
             return mesa;
         }
 
@@ -42,17 +47,26 @@ namespace staLuzia_Bulldogs
         {
             dataSaida = DateTime.Now;
         }
-        
-        public bool alternarStatus()
+
+        public void alternarStatus()
         {
-            return (status == true) ? status = false : status = true;
+            status = !status;
         }
 
-        public void updatePedido(string nome, int valor, int qnt){
-            pedido.addComida(nome, valor, qnt);
+        public void updatePedido(Comida comida, int qnt)
+        {
+            try
+            {
+                pedido.addComida(comida, qnt);
+            }
+            catch (ArgumentNullException) 
+            {
+                
+            }
         }
 
-        public string fecharPedido(){
+        public string fecharPedido()
+        {
             return pedido.relatiorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
         }
     }

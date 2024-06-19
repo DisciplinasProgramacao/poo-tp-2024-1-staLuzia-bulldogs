@@ -14,19 +14,17 @@ namespace staLuzia_Bulldogs
 
         private List<Comida> listaComidas = new List<Comida>();
 
-        public Pedido() 
+        public Pedido()
         {
             TAXA_SERVICO = 0.1;
         }
 
-        public void addComida(string nome, double valor, int quantidade)
+        public void addComida(Comida comida, int quantidade)
         {
-            for(int i = 0;  i < quantidade; i++) 
+            for (int i = 0; i < quantidade; i++)
             {
-                Comida comida = new Comida(nome, valor);
                 listaComidas.Add(comida);
             }
-            atualizarValor(valor, quantidade);
         }
 
         private void atualizarValor(double valor, int quantidade)
@@ -47,7 +45,7 @@ namespace staLuzia_Bulldogs
 
         public double precoFinal()
         {
-            return _valorTotal *= TAXA_SERVICO;
+            return listaComidas.Sum(c => c.valor()) * (1 + TAXA_SERVICO);
         }
     }
 }

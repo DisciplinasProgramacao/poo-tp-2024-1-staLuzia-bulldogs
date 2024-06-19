@@ -12,11 +12,13 @@ namespace staLuzia_Bulldogs
     {
         private Dictionary<string, Cliente> baseClientes;
         private Dictionary<string, Requisicao> baseRequisicao;
+        private Cardapio cardapio;
         protected List<Mesa> listaMesa;
 
         public Estabelecimento(){
             baseClientes = new Dictionary<string, Cliente>();
             baseRequisicao = new Dictionary<string, Requisicao>();
+            cardapio = new Cardapio();
             listaMesa = new List<Mesa>();
         }
 
@@ -27,11 +29,16 @@ namespace staLuzia_Bulldogs
         }
         public abstract Mesa alocarMesa(Requisicao nova);
 
-        public Requisicao abrirRequisicao(int quantidadePessoas, Mesa mesa)
+        public Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
         {
-            Requisicao requisicao = new Requisicao(quantidadePessoas, mesa);
+            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
             return requisicao;
         }
+
+        public Comida selecionarProduto(int resp){
+            cardapio.Equals(resp);
+        }
+
         public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
         {
             if (requisicao.verificarStatus())
