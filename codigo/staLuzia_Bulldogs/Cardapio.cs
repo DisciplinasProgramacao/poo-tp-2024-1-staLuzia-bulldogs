@@ -51,7 +51,7 @@ namespace staLuzia_Bulldogs
                 itens = new string[0,0];
             }
 
-            for (int i = 0; i < itens.Length; i++)
+            for (int i = 1; i <= itens.GetUpperBound(0); i++)
             {
                 comidas.Add(i, new Comida(itens[i, 0], Convert.ToDouble(itens[i, 1])));
             };

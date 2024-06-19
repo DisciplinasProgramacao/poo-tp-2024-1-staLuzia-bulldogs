@@ -20,13 +20,14 @@ namespace staLuzia_Bulldogs
 
         static void cabecalho()
         {
-            //Console.Clear();
+            Console.Clear();
             Console.WriteLine("====== Restaurante Sesas ======");
         }
         static bool novaTentativa(string contexto)
         {
-            Console.WriteLine(contexto + ", insira informações válidas");
-            Console.Write("Deseja tentar novamente? (S/N)");
+            Console.WriteLine($"\n## {contexto}, insira informações válidas ##");
+            Console.WriteLine("\nDeseja tentar novamente? (S/N)");
+            Console.Write("RESPOSTA: ");
             string resp = Console.ReadLine()!;
             if (resp == "n" || resp == "N")
             {
@@ -38,8 +39,8 @@ namespace staLuzia_Bulldogs
             }
             else
             {
-                Console.WriteLine("Resposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
-                return novaTentativa(contexto);
+                //Console.WriteLine("\nResposta inválida, favor tente novamente (aperte qualquer tecla para continuar)");
+                return novaTentativa("Resposta inválida");
             }
         }
 
@@ -127,7 +128,8 @@ namespace staLuzia_Bulldogs
             string nomeCliente;
             cabecalho();
             Console.WriteLine("-------Cadastro-------");
-            Console.Write("Qual o nome do cliente: ");
+            Console.WriteLine("Qual o nome do cliente: ");
+            Console.Write("RESPOSTA: ");
             nomeCliente = Console.ReadLine()!;
             if (isNumeric(nomeCliente))
             {
@@ -135,7 +137,7 @@ namespace staLuzia_Bulldogs
             }
 
             objEstabelecimento.addCliente(nomeCliente);
-            Console.WriteLine("Cadastro realizado com sucesso");
+            Console.WriteLine("\nCadastro realizado com sucesso");
             pausa();
         }
 
@@ -145,13 +147,15 @@ namespace staLuzia_Bulldogs
             Cliente cliente;
             cabecalho();
             Console.WriteLine("-------Abrir-Requisicao-------");
-            Console.Write("Qual cliente será atendido?");
+            Console.WriteLine("Qual cliente será atendido?");
+            Console.Write("RESPOSTA: ");
             cliente = objEstabelecimento.localizarCliente(Console.ReadLine()!);
             if (cliente == null)
             {
                 throw new ArgumentNullException("Cliente não achado");
             }
-            Console.Write("Qual a quantidade de pessoas que pessoas que serão atendidas?");
+            Console.WriteLine("\nQual a quantidade de pessoas que pessoas que serão atendidas?");
+            Console.Write("RESPOSTA: ");
             qntPessoas = int.Parse(Console.ReadLine()!); //FormatException
             if (qntPessoas < 0)
             {
@@ -159,7 +163,7 @@ namespace staLuzia_Bulldogs
             }
 
             objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
-            Console.WriteLine("Requisição criada com sucesso");
+            Console.WriteLine("\nRequisição criada com sucesso");
             pausa();
         }
 
@@ -170,7 +174,8 @@ namespace staLuzia_Bulldogs
             int respPedido;
             cabecalho();
             Console.WriteLine("-------Abrir-Pedido-------");
-            Console.Write("Qual cliente fará um pedido?");
+            Console.WriteLine("Qual cliente fará um pedido?");
+            Console.Write("RESPOSTA: ");
             requisicao = objEstabelecimento.localizarRequisição(Console.ReadLine()!);
             if (requisicao == null)
             {
@@ -178,7 +183,8 @@ namespace staLuzia_Bulldogs
             }
 
             respPedido = menuComidas();
-            Console.WriteLine("Quantos desse produto?");
+            Console.WriteLine("\nQuantos desse produto?");
+            Console.Write("RESPOSTA: ");
             int.TryParse(Console.ReadLine()!, out qntProdutos); //Format Exception
 
             if (qntProdutos < 0)
@@ -187,7 +193,7 @@ namespace staLuzia_Bulldogs
             }
             addComida(respPedido, qntProdutos, requisicao);
 
-            Console.WriteLine("Pedido realizado com sucesso");
+            Console.WriteLine("\nPedido realizado com sucesso");
             pausa();
         }
 
@@ -210,8 +216,8 @@ namespace staLuzia_Bulldogs
                         }
                         catch (FormatException ex)
                         {
-                            if (novaTentativa(ex.Message.ToString()))
-                                criarCliente();
+                            Console.WriteLine($"\n## {ex.Message}, insira informações válidas ##\n(Aperte qualquer tecla para continuar)");
+                            Console.ReadKey();
                         }
                         break;
 
@@ -223,7 +229,7 @@ namespace staLuzia_Bulldogs
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
 
-                            if (novaTentativa(ex.Message.ToString()))
+                            if (novaTentativa(ex.Message))
                                 criarRequisicao();
                         }
                         break;
@@ -235,7 +241,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
-                            if (novaTentativa(ex.Message.ToString()))
+                            if (novaTentativa(ex.Message))
                                 criarRequisicao();
                         }
                         break;
@@ -247,7 +253,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (ArgumentNullException an)
                         {
-                            if (novaTentativa(an.Message.ToString()))
+                            if (novaTentativa(an.Message))
                                 fecharAtendimento();
                         }
                         break;
@@ -283,7 +289,7 @@ namespace staLuzia_Bulldogs
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
 
-                            if (novaTentativa(ex.Message.ToString()))
+                            if (novaTentativa(ex.Message))
                                 criarRequisicao();
                         }
                         break;
@@ -295,8 +301,8 @@ namespace staLuzia_Bulldogs
                         }
                         catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                         {
-                            if (novaTentativa(ex.Message.ToString()))
-                                criarRequisicao();
+                            if (novaTentativa(ex.Message))
+                                abrirPedido();
                         }
                         break;
 
@@ -307,7 +313,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (ArgumentNullException an)
                         {
-                            if (novaTentativa(an.Message.ToString()))
+                            if (novaTentativa(an.Message))
                                 fecharAtendimento();
                         }
                         break;
@@ -348,6 +354,7 @@ namespace staLuzia_Bulldogs
 
             try
             {
+                Console.Clear();
                 Console.WriteLine("Bem vindo ao Sesa's System");
                 Console.WriteLine("===========================");
                 Console.WriteLine("Qual estabelecimento será usado?");
