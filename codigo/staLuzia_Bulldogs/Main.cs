@@ -205,53 +205,26 @@ namespace staLuzia_Bulldogs
                             break;
 
                         case 2:
-                            bool tentativa = false;
-
                             try
                             {
                                 criarRequisicao();
                             }
-                            catch (ArgumentNullException an || FormatException fe || ArgumentOutOfRangeException af)
+                            catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                             {
-                                tentativa = novaTentativa(an.Message.ToString());
-                            }
-                            catch (FormatException)
-                            {
-                                tentativa = novaTentativa("Quantidade de pessoas inválida");
-                            }
-                            catch (ArgumentOutOfRangeException ao)
-                            {
-                                tentativa = novaTentativa(ao.Message.ToString());
-                            }
-                            finally
-                            {
-                                if (tentativa)
+                                
+                                if (novaTentativa(ex.Message.ToString()))
                                     criarRequisicao();
                             }
                             break;
 
                         case 3:
-                            tentativa = false;
-
                             try
                             {
                                 abrirPedido();
                             }
-                            catch (ArgumentNullException an)
+                            catch (Exception ex) when (ex is ArgumentNullException || ex is FormatException || ex is ArgumentOutOfRangeException)
                             {
-                                tentativa = novaTentativa(an.Message.ToString());
-                            }
-                            catch (FormatException)
-                            {
-                                tentativa = novaTentativa("Quantidade de produtos inválido");
-                            }
-                            catch (ArgumentOutOfRangeException ao)
-                            {
-                                tentativa = novaTentativa(ao.Message.ToString());
-                            }
-                            finally
-                            {
-                                if (tentativa)
+                                if (novaTentativa(ex.Message.ToString()))
                                     criarRequisicao();
                             }
                             break;

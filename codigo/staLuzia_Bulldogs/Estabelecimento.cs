@@ -12,17 +12,18 @@ namespace staLuzia_Bulldogs
     {
         protected Dictionary<string, Cliente> baseClientes;
         protected Dictionary<string, Requisicao> baseRequisicao;
-        protected Cardapio cardapio;
+        protected Cardapio cardapio = null!;
         protected List<Mesa> listaMesa;
 
-        public Estabelecimento(){
+        public Estabelecimento()
+        {
             baseClientes = new Dictionary<string, Cliente>();
             baseRequisicao = new Dictionary<string, Requisicao>();
-            cardapio = new Cardapio();
             listaMesa = new List<Mesa>();
         }
 
-        public void addCliente(string nomeCliente){
+        public void addCliente(string nomeCliente)
+        {
             Cliente novo = new Cliente(nomeCliente);
             baseClientes.Add(nomeCliente, novo);
             listaMesa = new List<Mesa>();
@@ -35,7 +36,17 @@ namespace staLuzia_Bulldogs
             return requisicao;
         }
 
-        public abstract Comida selecionarProduto(int resp);
+        public Requisicao localizarRequisição(string nomeCliente)
+        {
+            if (baseRequisicao.ContainsKey(nomeCliente))
+                return baseRequisicao[nomeCliente];
+            return null!;
+        }
+
+        public Comida selecionarProduto(int resp)
+        {
+            return cardapio.produto(resp);
+        }
 
         public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
         {

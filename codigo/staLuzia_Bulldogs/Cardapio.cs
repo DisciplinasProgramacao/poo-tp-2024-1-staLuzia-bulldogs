@@ -30,7 +30,7 @@ namespace staLuzia_Bulldogs
                         {"Café espresso orgânico", "6"},
                     };
             }
-            else
+            else if(tipo.Equals(ETipo.restaurante))
             {
                 itens = new string[,]
                 {
@@ -46,6 +46,9 @@ namespace staLuzia_Bulldogs
                         {"Cerveja vegana", "9"},
                         {"Taça de vinho vegano", "18"},
                 };
+            }
+            else{
+                itens = new string[0,0];
             }
 
             for (int i = 0; i < itens.Length; i++)

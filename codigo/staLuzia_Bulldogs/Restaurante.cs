@@ -11,6 +11,7 @@ namespace staLuzia_Bulldogs
         private Queue<Cliente> filaEspera;
         public Restaurante()
         {
+            cardapio = new Cardapio(ETipo.restaurante);
             listaMesa = [
                 new Mesa(4),
                 new Mesa(4),
@@ -38,9 +39,7 @@ namespace staLuzia_Bulldogs
             }
         }
 
-        public override Comida selecionarProduto(int resp){
-            return cardapio.produtoRestaurante(resp);
-        }
+
 
         public Cliente localizarCliente(string nomeCliente)
         {
@@ -49,12 +48,7 @@ namespace staLuzia_Bulldogs
             return null!;
         }
 
-        public Requisicao localizarRequisição(string nomeCliente)
-        {
-            if (baseRequisicao.ContainsKey(nomeCliente))
-                return baseRequisicao[nomeCliente];
-            return null!;
-        }
+        
 
         public Mesa mesaDisponivel(int qnt)
         {
