@@ -216,8 +216,8 @@ namespace staLuzia_Bulldogs
                         }
                         catch (FormatException ex)
                         {
-                            Console.WriteLine($"\n## {ex.Message}, insira informações válidas ##\n(Aperte qualquer tecla para continuar)");
-                            Console.ReadKey();
+                            if (novaTentativa(ex.Message))
+                                criarCliente();
                         }
                         break;
 
