@@ -7,28 +7,15 @@ using System.Threading.Tasks;
 namespace staLuzia_Bulldogs;
 class Cafeteria : Estabelecimento
 {
-    public override bool atribuirRequisicao(Requisicao requisicao)
+    public override Mesa alocarMesa(Requisicao requisicao)
     {
-        if (!requisicao.statusReserva())
+        try
         {
-            int qntPessoas = requisicao.obterQuantidade();
-            DateTime dataAgora = DateTime.Now;
-            foreach (Mesa mesa in listaMesa)
-            {
-                if (mesa.verificarCapacidade(qntPessoas) && !mesa.verificarDisponivel())
-                {
-                    requisicao.reservar(mesa);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            return listaMesa.Where(m => m.verificarDisponivel()).Where(m => m.verificarCapacidade(requisicao.obterQuantidade())).FirstOrDefault()!;
         }
-        else
+        catch (ArgumentNullException)
         {
-            return false;
+            throw new ArgumentNullException("Sem mesa disponível");
         }
     }
 }

@@ -12,15 +12,15 @@ namespace staLuzia_Bulldogs
     {
         private DateTime dataEntrada;
         private DateTime dataSaida;
-        private int quantPessoas;
+        private int qntPessoas;
         private Mesa mesa;
         private Pedido pedido;
         private bool status;
 
-        public Requisicao(int quantPessoas, Mesa mesa)
+        public Requisicao(int qntPessoas, Mesa mesa)
         {
             dataEntrada = DateTime.Now;
-            this.quantPessoas = quantPessoas;
+            this.qntPessoas = qntPessoas;
             this.mesa = mesa;
             pedido = new Pedido();
             status = false;
@@ -28,6 +28,10 @@ namespace staLuzia_Bulldogs
 
         public bool verificarStatus(){
             return status;
+        }
+
+        public int obterQuantidade(){
+            return qntPessoas;
         }
 
         public Mesa obterMesa(){

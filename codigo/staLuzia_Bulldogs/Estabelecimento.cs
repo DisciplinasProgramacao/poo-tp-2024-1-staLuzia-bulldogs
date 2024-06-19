@@ -12,13 +12,20 @@ namespace staLuzia_Bulldogs
     {
         private Dictionary<string, Cliente> baseClientes;
         private Dictionary<string, Requisicao> baseRequisicao;
-        private List<Mesa> listaMesa;
+        protected List<Mesa> listaMesa;
+
+        public Estabelecimento(){
+            baseClientes = new Dictionary<string, Cliente>();
+            baseRequisicao = new Dictionary<string, Requisicao>();
+            listaMesa = new List<Mesa>();
+        }
 
         public void addCliente(string nomeCliente){
             Cliente novo = new Cliente(nomeCliente);
             baseClientes.Add(nomeCliente, novo);
+            listaMesa = new List<Mesa>();
         }
-        public abstract bool atribuirRequisicao(Requisicao nova);
+        public abstract Mesa alocarMesa(Requisicao nova);
 
         public Requisicao abrirRequisicao(int quantidadePessoas, Mesa mesa)
         {
@@ -32,7 +39,6 @@ namespace staLuzia_Bulldogs
                 requisicao.registrarSaida();
                 requisicao.obterMesa().alternarStatus(false);
                 baseRequisicao.Remove(nomeCliente);
-                avancarFila();
                 return requisicao.fecharPedido();
             }
             return "Requisição já fechada";

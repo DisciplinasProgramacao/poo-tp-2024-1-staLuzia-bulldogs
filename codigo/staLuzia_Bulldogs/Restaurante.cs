@@ -10,7 +10,6 @@ namespace staLuzia_Bulldogs
     {
         private Dictionary<string, Cliente> baseClientes;
         private Dictionary<string, Requisicao> baseRequisicao;
-        private Mesa[] listaMesa;
         private Queue<Cliente> filaEspera;
         public Restaurante()
         {
@@ -31,6 +30,18 @@ namespace staLuzia_Bulldogs
             filaEspera = new Queue<Cliente>();
         }
 
+        public override Mesa alocarMesa(Requisicao requisicao)
+        {
+            try
+            {
+                return listaMesa.Where(m => m.verificarDisponivel()).Where(m => m.verificarCapacidade(requisicao.obterQuantidade())).FirstOrDefault()!;
+            }
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentNullException("Sem mesa disponível");
+            }
+        }
+
         public Cliente localizarCliente(string nomeCliente)
         {
             if (baseClientes.ContainsKey(nomeCliente))
@@ -45,29 +56,6 @@ namespace staLuzia_Bulldogs
             return null!;
         }
 
-        public void addCliente(string nomeCliente)
-        {
-            Cliente novo = new Cliente(nomeCliente);
-            baseClientes.Add(nomeCliente, novo);
-        }
-
-        public Requisicao abrirRequisicao(int quantidadePessoas, Mesa mesa)
-        {
-            Requisicao requisicao = new Requisicao(quantidadePessoas, mesa);
-            return requisicao;
-        }
-        public bool avancarFila()
-        {
-            if (filaEspera.Count != 0)
-            {
-                // if (verificarDisponibilidade(filaEspera.Peek()))
-                // {
-                //     atribuirRequisicao(filaEspera.Dequeue());      
-                // }
-                return true;
-            }
-            return false;
-        }
         public Mesa mesaDisponivel(int qnt)
         {
             foreach (Mesa mesa in listaMesa)
@@ -83,18 +71,6 @@ namespace staLuzia_Bulldogs
         public void addFilaEspera(Cliente cliente)
         {
             filaEspera.Enqueue(cliente);
-        }
-        public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
-        {
-            if (requisicao.verificarStatus())
-            {
-                requisicao.registrarSaida();
-                requisicao.obterMesa().alternarStatus(false);
-                baseRequisicao.Remove(nomeCliente);
-                avancarFila();
-                return requisicao.fecharPedido();
-            }
-            return "Requisição já fechada";
         }
     }
 }
