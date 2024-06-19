@@ -27,6 +27,22 @@ namespace staLuzia_Bulldogs
             filaEspera = new Queue<Cliente>();
         }
 
+        public override Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
+        {
+            Mesa mesa;
+            mesa = mesaDisponivel(quantidadePessoas);
+            if (mesa == null)
+            {
+                addFilaEspera(cliente);
+                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera");
+            }
+            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
+            requisicao.ocuparMesa(mesa);
+            return requisicao;
+        }
+
+
+
         public override Mesa alocarMesa(Requisicao requisicao)
         {
             try
@@ -41,14 +57,9 @@ namespace staLuzia_Bulldogs
 
 
 
-        public Cliente localizarCliente(string nomeCliente)
-        {
-            if (baseClientes.ContainsKey(nomeCliente))
-                return baseClientes[nomeCliente];
-            return null!;
-        }
 
-        
+
+
 
         public Mesa mesaDisponivel(int qnt)
         {

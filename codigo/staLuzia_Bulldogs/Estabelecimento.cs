@@ -30,10 +30,13 @@ namespace staLuzia_Bulldogs
         }
         public abstract Mesa alocarMesa(Requisicao nova);
 
-        public Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
+        public abstract Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente);
+
+        public Cliente localizarCliente(string nomeCliente)
         {
-            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
-            return requisicao;
+            if (baseClientes.ContainsKey(nomeCliente))
+                return baseClientes[nomeCliente];
+            return null!;
         }
 
         public Requisicao localizarRequisição(string nomeCliente)
