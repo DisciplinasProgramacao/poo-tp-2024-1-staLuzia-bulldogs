@@ -11,15 +11,20 @@ namespace staLuzia_Bulldogs
         private int capacidade;
         private bool reservado;
 
+        /// Determinar capacidade da mesa
         public Mesa(int capacidade)
         {
             this.capacidade = capacidade;
             reservado = false;
         }
+
+        /// Verificar disponibilidade
         public bool disponibilidade()
         {
-             return !reservado;
+            return !reservado;
         }
+
+        /// Verificar capacidade da mesa com a quantidade de pessoas 
         public bool verificarCapacidade(int quantidadePessoas)
         {
             if(quantidadePessoas <= capacidade)
@@ -29,6 +34,7 @@ namespace staLuzia_Bulldogs
             return false;
         }   
 
+        /// Alternar status da mesa
         public void alternarStatus(bool status){
             reservado = status;
         }     

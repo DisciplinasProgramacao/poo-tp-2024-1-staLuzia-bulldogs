@@ -9,6 +9,8 @@ namespace staLuzia_Bulldogs
     class Restaurante : Estabelecimento
     {
         private Queue<Cliente> filaEspera;
+
+        /// Criar novo cardápio e atribuir as mesas de um novo restaurante
         public Restaurante()
         {
             cardapio = new Cardapio(ETipo.restaurante);
@@ -27,6 +29,7 @@ namespace staLuzia_Bulldogs
             filaEspera = new Queue<Cliente>();
         }
 
+        /// Método para abrir requisição no restaurante
         public override Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
         {
             Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
@@ -42,6 +45,7 @@ namespace staLuzia_Bulldogs
             return requisicao;
         }
 
+        /// Método para alocar a mesa com a requisição feita
         private Mesa alocarMesa(Requisicao requisicao)
         {
             try
@@ -54,7 +58,7 @@ namespace staLuzia_Bulldogs
             }
         }
 
-
+        /// Método para adicionar fila de espera do restaurante
         private void addFilaEspera(Cliente cliente)
         {
             filaEspera.Enqueue(cliente);

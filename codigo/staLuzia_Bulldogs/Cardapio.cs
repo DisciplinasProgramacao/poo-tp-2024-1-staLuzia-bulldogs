@@ -8,6 +8,7 @@ namespace staLuzia_Bulldogs
 {
     internal class Cardapio
     {
+        /// Criando cardápios para colocar nome e preço dos produtos de determinados estabelecimentos
         private Dictionary<int, Comida> comidas;
         public Cardapio(ETipo tipo)
         {
@@ -58,11 +59,13 @@ namespace staLuzia_Bulldogs
 
         }
 
+        /// Buscar determinada comida a partir de seu id
         public Comida produto(int idComida)
         {
             return comidas[idComida];
         }
 
+        /// Menu do cardápio para o usuário escolher as opções desejadas
         public override string ToString()
         {
             int count = 1;
@@ -79,7 +82,8 @@ namespace staLuzia_Bulldogs
 
             return sb.ToString();
         }
-
+        
+        /// Método para retornar a quantidade de comidas no menu
         public int tamanho()
         {
             return comidas.Values.Count() + 1;
