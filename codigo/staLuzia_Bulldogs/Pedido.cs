@@ -22,7 +22,7 @@ namespace staLuzia_Bulldogs
                 listaComidas.Add(comida);
         }
 
-        public string relatiorio()
+        public string relatorio()
         {
             StringBuilder sb = new StringBuilder();
             foreach (Comida comida in listaComidas)
@@ -30,7 +30,7 @@ namespace staLuzia_Bulldogs
                 sb.AppendLine(comida.ToString());
             }
 
-            return sb.ToString() + "\nR$: " + precoFinal().ToString("2F");
+            return sb.ToString() + "\nR$: " + precoFinal().ToString("F2");
         }
 
         public double precoFinal()

@@ -87,7 +87,7 @@ namespace staLuzia_Bulldogs
             {
                 Requisicao requisicao = baseRequisicao[cliente.ToString()];
 
-                if (requisicao.verificarStatus())
+                if (!requisicao.verificarStatus())
                 {
                     baseRequisicao.Remove(cliente.ToString());
                     return requisicao.fecharPedido();
