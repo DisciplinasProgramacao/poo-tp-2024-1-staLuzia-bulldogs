@@ -23,13 +23,9 @@ namespace staLuzia_Bulldogs
         public void addComida(Comida comida) { 
             listaComidas.Add(comida);
         }
-
-<<<<<<< Updated upstream
-        public string relatorio()
-=======
+        
         /// Método para relatório do pedido
-        public string relatiorio()
->>>>>>> Stashed changes
+        public string relatorio()
         {
             StringBuilder sb = new StringBuilder();
             foreach (Comida comida in listaComidas)

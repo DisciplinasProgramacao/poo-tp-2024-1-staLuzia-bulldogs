@@ -295,13 +295,8 @@ namespace staLuzia_Bulldogs
 
         static void Main(string[] args)
         {
-<<<<<<< Updated upstream
-            int opcaoMenu;
-
-=======
             int opcaoMenu = 0;
-            
->>>>>>> Stashed changes
+
             try
             {
                 Console.Clear();
