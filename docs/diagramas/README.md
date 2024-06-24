@@ -7,4 +7,6 @@ TP2:
 <img src="./TP2-TBPOO.jpeg">
 TP3:
 <img src="./Trabalho_Prático_3.jpeg">
+TP3 - Diagrama Final:
+<img src="./TP3-TBPOO.jpeg">
 
