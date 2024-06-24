@@ -16,13 +16,9 @@ namespace staLuzia_Bulldogs
             this.capacidade = capacidade;
             reservado = false;
         }
-        public bool verificarDisponivel()
+        public bool disponibilidade()
         {
-            if(reservado == false)
-            {
-                return true;
-            }
-            return false;
+             return !reservado;
         }
         public bool verificarCapacidade(int quantidadePessoas)
         {

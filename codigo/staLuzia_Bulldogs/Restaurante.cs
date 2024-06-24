@@ -29,25 +29,23 @@ namespace staLuzia_Bulldogs
 
         public override Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
         {
-            Mesa mesa;
-            mesa = mesaDisponivel(quantidadePessoas);
-            if (mesa == null)
+            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
+            Mesa mesaIdeal = alocarMesa(requisicao);
+            if (mesaIdeal == null)
             {
                 addFilaEspera(cliente);
                 throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera");
             }
-            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
-            requisicao.ocuparMesa(mesa);
+            baseRequisicao.Add(cliente.ToString(), requisicao);
+            requisicao.ocuparMesa(mesaIdeal);
             return requisicao;
         }
 
-
-
-        public override Mesa alocarMesa(Requisicao requisicao)
+        private Mesa alocarMesa(Requisicao requisicao)
         {
             try
             {
-                return listaMesa.Where(m => m.verificarDisponivel()).Where(m => m.verificarCapacidade(requisicao.obterQuantidade())).FirstOrDefault()!;
+                return listaMesa.Where(m => m.disponibilidade()).Where(m => m.verificarCapacidade(requisicao.obterQuantidade())).FirstOrDefault()!;
             }
             catch (ArgumentNullException)
             {
@@ -56,24 +54,7 @@ namespace staLuzia_Bulldogs
         }
 
 
-
-
-
-
-
-        public Mesa mesaDisponivel(int qnt)
-        {
-            foreach (Mesa mesa in listaMesa)
-            {
-                if (mesa.verificarCapacidade(qnt) && !mesa.verificarDisponivel())
-                {
-                    return mesa;
-                }
-            }
-            return null!;
-        }
-
-        public void addFilaEspera(Cliente cliente)
+        private void addFilaEspera(Cliente cliente)
         {
             filaEspera.Enqueue(cliente);
         }

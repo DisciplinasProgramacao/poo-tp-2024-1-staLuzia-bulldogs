@@ -14,18 +14,9 @@ class Cafeteria : Estabelecimento
 
     public override Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
     {
-        Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
+            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
+        baseRequisicao.Add(cliente.ToString(), requisicao);
         return requisicao;
     }
-    public override Mesa alocarMesa(Requisicao requisicao)
-    {
-        try
-        {
-            return listaMesa.Where(m => m.verificarDisponivel()).Where(m => m.verificarCapacidade(requisicao.obterQuantidade())).FirstOrDefault()!;
-        }
-        catch (ArgumentNullException)
-        {
-            throw new ArgumentNullException("Sem mesa disponível");
-        }
-    }
+    
 }

@@ -62,5 +62,27 @@ namespace staLuzia_Bulldogs
         {
             return comidas[idComida];
         }
+
+        public override string ToString()
+        {
+            int count = 1;
+            StringBuilder sb = new StringBuilder();
+                sb.AppendLine("===================MENU===================");
+            sb.AppendLine("Esolha uma das opções a seguir: \n");
+            foreach(Comida comida in comidas.Values)
+            {
+                sb.AppendLine($"{count}. {comida.ToString()}");
+                count++;
+            }
+            sb.AppendLine($"{count}.Cancelar");
+            sb.AppendLine("\n===========================================");
+
+            return sb.ToString();
+        }
+
+        public int tamanho()
+        {
+            return comidas.Values.Count() + 1;
+        }
     }
 }

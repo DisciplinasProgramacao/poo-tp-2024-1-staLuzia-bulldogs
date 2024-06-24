@@ -26,24 +26,54 @@ namespace staLuzia_Bulldogs
         {
             Cliente novo = new Cliente(nomeCliente);
             baseClientes.Add(nomeCliente, novo);
-            listaMesa = new List<Mesa>();
         }
-        public abstract Mesa alocarMesa(Requisicao nova);
 
         public abstract Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente);
 
         public Cliente localizarCliente(string nomeCliente)
         {
-            if (baseClientes.ContainsKey(nomeCliente))
+            try
+            {
                 return baseClientes[nomeCliente];
-            return null!;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException("Cliente não achado");
+            }
         }
 
-        public Requisicao localizarRequisição(string nomeCliente)
+        public Requisicao localizarRequisicao(string nomeCliente)
         {
-            if (baseRequisicao.ContainsKey(nomeCliente))
+            try
+            {
                 return baseRequisicao[nomeCliente];
-            return null!;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException("Cliente não possui requisicao cadastrada");
+            }
+        }
+
+        public string exibirMenu()
+        {
+            return cardapio.ToString();
+        }
+
+        public int tamanhoMenu()
+        {
+            return cardapio.tamanho();
+        }
+
+        public void addComida(int resp, Requisicao requisicao)
+        {
+            try {
+                Comida comida = selecionarProduto(resp);
+                requisicao.updatePedido(comida);
+            }
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentNullException("Cliente não possui requisição");
+            }
         }
 
         public Comida selecionarProduto(int resp)
@@ -51,16 +81,25 @@ namespace staLuzia_Bulldogs
             return cardapio.produto(resp);
         }
 
-        public string encerrarAtendimento(Requisicao requisicao, string nomeCliente)
+        public string encerrarAtendimento(Cliente cliente)
         {
-            if (requisicao.verificarStatus())
+            try
             {
-                requisicao.registrarSaida();
-                requisicao.obterMesa().alternarStatus(false);
-                baseRequisicao.Remove(nomeCliente);
-                return requisicao.fecharPedido();
+                Requisicao requisicao = baseRequisicao[cliente.ToString()];
+
+                if (requisicao.verificarStatus())
+                {
+                    requisicao.registrarSaida();
+                    requisicao.obterMesa().alternarStatus(false);
+                    baseRequisicao.Remove(cliente.ToString());
+                    return requisicao.fecharPedido();
+                }
+                return "Requisição já fechada";
             }
-            return "Requisição já fechada";
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentNullException("Cliente não possui requisição");
+            }
         }
     }
 }

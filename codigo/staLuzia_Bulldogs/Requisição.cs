@@ -57,20 +57,15 @@ namespace staLuzia_Bulldogs
             status = !status;
         }
 
-        public void updatePedido(Comida comida, int qnt)
+        public void updatePedido(Comida comida)
         {
-            try
-            {
-                pedido.addComida(comida, qnt);
-            }
-            catch (ArgumentNullException) 
-            {
-
-            }
+            pedido.addComida(comida);
         }
 
         public string fecharPedido()
         {
+            registrarSaida();
+            obterMesa().alternarStatus(false);
             return pedido.relatiorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
         }
     }
