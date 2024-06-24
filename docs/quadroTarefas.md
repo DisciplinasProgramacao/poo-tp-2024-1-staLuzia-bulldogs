@@ -11,4 +11,4 @@
 |Classe Cliente | Pedro Marques  | Concluído |
 |Classe Cafeteria | Pedro Marques  | Concluído |
 
-Visualização em versão em Planilha Google: [link](https://docs.google.com/spreadsheets/d/1BPBWjdYan4ELLwQogowNyQXUxWf8X_T8jbybZTUyQb8/edit?usp=sharing)
+Visualização em versão de Planilha Google: [link](https://docs.google.com/spreadsheets/d/1BPBWjdYan4ELLwQogowNyQXUxWf8X_T8jbybZTUyQb8/edit?usp=sharing)
