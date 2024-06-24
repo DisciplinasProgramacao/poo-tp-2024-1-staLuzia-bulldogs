@@ -66,6 +66,7 @@ namespace staLuzia_Bulldogs
         {
             registrarSaida();
             obterMesa().alternarStatus(false);
+            this.alternarStatus();
             return pedido.relatiorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
         }
     }

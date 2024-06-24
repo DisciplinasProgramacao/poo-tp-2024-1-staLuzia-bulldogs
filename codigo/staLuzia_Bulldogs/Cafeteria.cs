@@ -16,6 +16,7 @@ class Cafeteria : Estabelecimento
     {
             Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
         baseRequisicao.Add(cliente.ToString(), requisicao);
+        requisicao.alternarStatus();
         return requisicao;
     }
     

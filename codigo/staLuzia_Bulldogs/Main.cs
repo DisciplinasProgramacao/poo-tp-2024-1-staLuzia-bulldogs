@@ -284,7 +284,7 @@ namespace staLuzia_Bulldogs
 
         static void Main(string[] args)
         {
-            int opcaoMenu = 0;
+            int opcaoMenu;
 
             try
             {

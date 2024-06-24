@@ -89,8 +89,6 @@ namespace staLuzia_Bulldogs
 
                 if (requisicao.verificarStatus())
                 {
-                    requisicao.registrarSaida();
-                    requisicao.obterMesa().alternarStatus(false);
                     baseRequisicao.Remove(cliente.ToString());
                     return requisicao.fecharPedido();
                 }

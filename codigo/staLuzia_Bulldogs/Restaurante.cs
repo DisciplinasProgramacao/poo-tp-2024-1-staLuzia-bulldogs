@@ -38,6 +38,7 @@ namespace staLuzia_Bulldogs
             }
             baseRequisicao.Add(cliente.ToString(), requisicao);
             requisicao.ocuparMesa(mesaIdeal);
+            requisicao.alternarStatus();
             return requisicao;
         }
 
