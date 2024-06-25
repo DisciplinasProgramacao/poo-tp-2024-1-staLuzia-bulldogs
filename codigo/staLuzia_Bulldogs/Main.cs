@@ -135,11 +135,11 @@ namespace staLuzia_Bulldogs
             qntPessoas = int.Parse(Console.ReadLine()!); //FormatException
             if (qntPessoas < 0)
             {
-                throw new ValorNegativoException("Valor negativo é inválido nesse contexto");
+                throw new ValorInvalidoException("Valor negativo é inválido nesse contexto");
             }
 
-            Requisicao oi = objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
-            Console.WriteLine("\nRequisição criada com sucesso, você está na mesa: " + oi.ToString());
+            objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
+            Console.WriteLine("\nRequisição criada com sucesso");
             pausa();
         }
 
@@ -177,7 +177,7 @@ namespace staLuzia_Bulldogs
 
                     if (qntProdutos < 0)
                     {
-                        throw new ValorNegativoException("Valor negativo é inválido nesse contexto");
+                        throw new ValorInvalidoException("Valor negativo é inválido nesse contexto");
                     }
 
                     for (int i = 0; i < qntProdutos; i++)
@@ -207,7 +207,7 @@ namespace staLuzia_Bulldogs
             int.TryParse(Console.ReadLine(), out opcaoMenu);
             if (opcaoMenu <= 0 || opcaoMenu > objEstabelecimento.tamanhoMenu())
             {
-                throw new ValorNegativoException("Opção do menu inválido!");
+                throw new ValorInvalidoException("Opção do menu inválido!");
             }
             if (opcaoMenu == objEstabelecimento.tamanhoMenu())
                 return 0;
@@ -251,7 +251,7 @@ namespace staLuzia_Bulldogs
                         }
                         catch (FormatException fx)
                         {
-                            avisoErro(fx.Message.ToString());
+                            avisoErro(fx.Message);
                         }
                         break;
 
@@ -260,9 +260,15 @@ namespace staLuzia_Bulldogs
                         {
                             criarRequisicao();
                         }
-                        catch (Exception ex) when (ex is FormatException || ex is ValorNegativoException || ex is KeyNotFoundException)
+                        catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException)
                         {
                             avisoErro(ex.Message);
+                        }
+                        catch (InvalidOperationException io)
+                        {
+                            Console.WriteLine(io.Message);
+                            Console.WriteLine("(Aperte qualquer tecla para continuar)");
+                            Console.ReadKey();
                         }
                         break;
 
@@ -271,7 +277,7 @@ namespace staLuzia_Bulldogs
                         {
                             abrirPedido();
                         }
-                        catch (Exception ex) when (ex is FormatException || ex is ValorNegativoException || ex is KeyNotFoundException)
+                        catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException)
                         {
                             avisoErro(ex.Message);
                         }

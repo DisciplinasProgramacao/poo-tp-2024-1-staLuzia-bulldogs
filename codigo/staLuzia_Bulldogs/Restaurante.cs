@@ -9,6 +9,9 @@ namespace staLuzia_Bulldogs
     class Restaurante : Estabelecimento
     {
         private Queue<Cliente> filaEspera;
+        private List<Mesa> listaMesa;
+        static int MAX_ASSENTOS;
+
 
         /// Criar novo cardápio e atribuir as mesas de um novo restaurante
         public Restaurante()
@@ -26,6 +29,7 @@ namespace staLuzia_Bulldogs
                 new Mesa(8),
                 new Mesa(8)
             ];
+            MAX_ASSENTOS = 8;
             filaEspera = new Queue<Cliente>();
         }
 
@@ -34,15 +38,17 @@ namespace staLuzia_Bulldogs
         {
             try
             {
+                if (qntPessoas > MAX_ASSENTOS)
+                    throw new ValorInvalidoException("Não possuimos mesa para essa quantidade de pessoas");
                 Requisicao requisicao = new Requisicao(qntPessoas, cliente);
                 alocarMesa(requisicao);
                 baseRequisicao.Add(cliente.ToString(), requisicao);
                 return requisicao;
             }
-            catch (ArgumentNullException)
+            catch (InvalidOperationException)
             {
                 filaEspera.Enqueue(cliente);
-                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera");
+                throw new InvalidOperationException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
             }
         }
 

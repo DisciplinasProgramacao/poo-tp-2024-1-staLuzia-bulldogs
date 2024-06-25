@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace staLuzia_Bulldogs
 {
-    internal class ValorNegativoException : Exception
+    internal class ValorInvalidoException : Exception
     {
-        public ValorNegativoException(string? message) : base(message)
+        public ValorInvalidoException(string? message) : base(message)
         {
         }
     }

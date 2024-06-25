@@ -13,7 +13,6 @@ namespace staLuzia_Bulldogs
         protected Dictionary<string, Cliente> baseClientes;
         protected Dictionary<string, Requisicao> baseRequisicao;
         protected Cardapio cardapio = null!;
-        protected List<Mesa> listaMesa;
 
         /// <summary>
         /// Cria novo estabelecimento
@@ -22,7 +21,6 @@ namespace staLuzia_Bulldogs
         {
             baseClientes = new Dictionary<string, Cliente>();
             baseRequisicao = new Dictionary<string, Requisicao>();
-            listaMesa = new List<Mesa>();
         }
 
         /// Método para adicionar cliente

@@ -18,6 +18,11 @@ namespace staLuzia_Bulldogs
             disponivel = true;
         }
 
+        public int getCapacidade()
+        {
+            return capacidade;
+        }
+
         /// Verificar disponibilidade
         public bool disponibilidade()
         {
