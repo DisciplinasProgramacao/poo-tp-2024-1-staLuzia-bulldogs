@@ -12,18 +12,21 @@ namespace staLuzia_Bulldogs
     {
         static Estabelecimento objEstabelecimento = null!;
 
+        /// Início
         static void pausa()
         {
             Console.Write("\nTecle Enter para continuar.");
             Console.ReadLine();
         }
 
+        /// Nome do sistema
         static void cabecalho()
         {
             Console.Clear();
             Console.WriteLine("========== Sese's System ==========");
         }
 
+        /// Aviso se der algum erro
         static void avisoErro(string contexto)
         {
             Console.WriteLine($"\n## {contexto}, insira informações validas ##");
@@ -31,6 +34,7 @@ namespace staLuzia_Bulldogs
             Console.ReadKey();
         }
 
+        /// Nova tentativa para acessar menu
         static bool novaTentativa(string contexto)
         {
             Console.WriteLine($"\n{contexto} (S/N)");
@@ -38,6 +42,7 @@ namespace staLuzia_Bulldogs
             return Console.ReadLine()!.ToLower() == "s" ? true : false;
         }
 
+        /// Verificar se resposta é numérica 
         static bool isNumeric(string value)
         {
             for (int i = 0; i < value.Length; i++)
@@ -50,6 +55,7 @@ namespace staLuzia_Bulldogs
             return false;
         }
 
+        /// Menu principal restaurante
         static int menuPrincipalRest()
         {
             int opcaoMenu;
@@ -67,6 +73,7 @@ namespace staLuzia_Bulldogs
             return opcaoMenu;
         }
 
+        /// Menu principal cafeteria
         static int menuPrincipalCafe()
         {
             int opcaoMenu;
@@ -85,7 +92,7 @@ namespace staLuzia_Bulldogs
         }
 
         
-
+        /// Cadastrar novo cliente
         static void criarCliente()
         {
             string nomeCliente;
@@ -104,6 +111,7 @@ namespace staLuzia_Bulldogs
             pausa();
         }
 
+        /// Criar nova requisição
         static void criarRequisicao()
         {
             int qntPessoas;
@@ -128,6 +136,7 @@ namespace staLuzia_Bulldogs
             pausa();
         }
 
+        /// Método para abrir pedido
         static void abrirPedido()
         {
             Requisicao requisicao;
@@ -142,6 +151,7 @@ namespace staLuzia_Bulldogs
             pausa();
         }
 
+        /// Método para adicionar comidas no pedido
         static bool inserirEmPedido(Requisicao requisicao)
         {
             int qntProdutos;
@@ -168,7 +178,7 @@ namespace staLuzia_Bulldogs
                         objEstabelecimento.addComida(respPedido, requisicao);
                     }
 
-                    Console.WriteLine("\nItem adcinado ao pedido!");
+                    Console.WriteLine("\nItem adicionado ao pedido!");
                     cond = !novaTentativa("Deseja adcionar mais comidas?");
                 }
                 catch (Exception ex)
@@ -178,7 +188,8 @@ namespace staLuzia_Bulldogs
             }
             return true;
         }
-
+        
+        /// Método para escolher comida do menu
         static int escolherComida()
         {
 
@@ -196,7 +207,7 @@ namespace staLuzia_Bulldogs
             return opcaoMenu;
         }
 
-
+        /// Fechar atendimento
         static void fecharAtendimento()
         {
             Cliente cliente;
@@ -209,7 +220,7 @@ namespace staLuzia_Bulldogs
             pausa();
         }
 
-
+        /// Determinar o tipo do estabelecimento
         static void mainEstabelecimentos(int tipo)
         {
             if(tipo == 1)
@@ -284,7 +295,7 @@ namespace staLuzia_Bulldogs
 
         static void Main(string[] args)
         {
-            int opcaoMenu;
+            int opcaoMenu = 0;
 
             try
             {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace staLuzia_Bulldogs
 {
+    /// Interface para determinar os tipos de estabelecimento
     public enum ETipo{
         restaurante,
         cafeteria

@@ -15,6 +15,7 @@ namespace staLuzia_Bulldogs
         protected Cardapio cardapio = null!;
         protected List<Mesa> listaMesa;
 
+        /// Cria novo estabelecimento
         public Estabelecimento()
         {
             baseClientes = new Dictionary<string, Cliente>();
@@ -22,14 +23,17 @@ namespace staLuzia_Bulldogs
             listaMesa = new List<Mesa>();
         }
 
+        /// Método para adicionar cliente
         public void addCliente(string nomeCliente)
         {
             Cliente novo = new Cliente(nomeCliente);
             baseClientes.Add(nomeCliente, novo);
         }
 
+        /// Método para abrir requisição com a quantidade de pessoas e o nome do cliente
         public abstract Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente);
 
+        /// Método para localizar cliente
         public Cliente localizarCliente(string nomeCliente)
         {
             try
@@ -42,6 +46,7 @@ namespace staLuzia_Bulldogs
             }
         }
 
+        /// Método para localizar requisição cadastrada
         public Requisicao localizarRequisicao(string nomeCliente)
         {
             try
@@ -54,16 +59,19 @@ namespace staLuzia_Bulldogs
             }
         }
 
+        /// Método para mostrar o menu do estabelecimento
         public string exibirMenu()
         {
             return cardapio.ToString();
         }
 
+        /// Método para ver a quantidade de opões no cardápio
         public int tamanhoMenu()
         {
             return cardapio.tamanho();
         }
 
+        /// Método para adicionar comida no pedido
         public void addComida(int resp, Requisicao requisicao)
         {
             try {
@@ -76,18 +84,20 @@ namespace staLuzia_Bulldogs
             }
         }
 
+        /// Método para selecionar algum produto
         public Comida selecionarProduto(int resp)
         {
             return cardapio.produto(resp);
         }
 
+        /// Método para encerrar o atendimento de um cliente
         public string encerrarAtendimento(Cliente cliente)
         {
             try
             {
                 Requisicao requisicao = baseRequisicao[cliente.ToString()];
 
-                if (requisicao.verificarStatus())
+                if (!requisicao.verificarStatus())
                 {
                     baseRequisicao.Remove(cliente.ToString());
                     return requisicao.fecharPedido();

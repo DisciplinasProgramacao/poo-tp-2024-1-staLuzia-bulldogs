@@ -10,11 +10,13 @@ namespace staLuzia_Bulldogs
     {
         private string nome;
 
+        /// Cria novo cliente
         public Cliente(string nome)
         {
             this.nome = nome;
         }
 
+        /// Método para retornar o nome do cliente
         public override string ToString(){
             return nome;
         }
