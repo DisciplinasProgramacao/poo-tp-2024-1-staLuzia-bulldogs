@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Matheus\\Documents\\GitHub\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj": {}
+    "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Matheus\\Documents\\GitHub\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj": {
+    "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Matheus\\Documents\\GitHub\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
+        "projectUniqueName": "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
         "projectName": "staLuzia_Bulldogs",
-        "projectPath": "C:\\Users\\Matheus\\Documents\\GitHub\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
-        "packagesPath": "C:\\Users\\Matheus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Matheus\\Documents\\GitHub\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\obj\\",
+        "projectPath": "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\staLuzia_Bulldogs.csproj",
+        "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pedro\\OneDrive\\Documentos\\Trabalhinhos\\POO\\Trabalho Prático\\poo-tp-2024-1-staLuzia-bulldogs\\codigo\\staLuzia_Bulldogs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Matheus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pedro\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
