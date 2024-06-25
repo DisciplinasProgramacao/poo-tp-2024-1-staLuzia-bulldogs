@@ -55,7 +55,7 @@ namespace staLuzia_Bulldogs
         /// Método para alocar a mesa com a requisição feita
         private Mesa buscarMesa(int qntPessoas)
         {
-            return listaMesa.Where(m => m.verificarCapacidade(qntPessoas)).Where(m => m.disponibilidade()).FirstOrDefault()!;
+            return listaMesa.Where(m => m.verificarCapacidade(qntPessoas)).Where(m => m.disponibilidade()).Single();
         }
 
         public override string encerrarAtendimento(Cliente cliente)

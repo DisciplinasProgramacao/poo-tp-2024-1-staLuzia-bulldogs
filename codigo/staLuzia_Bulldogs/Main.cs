@@ -91,24 +91,31 @@ namespace staLuzia_Bulldogs
             return opcaoMenu;
         }
 
-        
+
         /// Cadastrar novo cliente
         static void criarCliente()
         {
-            string nomeCliente;
-            cabecalho();
-            Console.WriteLine("-------Cadastro-------");
-            Console.WriteLine("Qual o nome do cliente: ");
-            Console.Write("RESPOSTA: ");
-            nomeCliente = Console.ReadLine()!;
-            if (isNumeric(nomeCliente))
+            try
             {
-                throw new FormatException("Nome inválido");
-            }
+                string nomeCliente;
+                cabecalho();
+                Console.WriteLine("-------Cadastro-------");
+                Console.WriteLine("Qual o nome do cliente: ");
+                Console.Write("RESPOSTA: ");
+                nomeCliente = Console.ReadLine()!;
+                if (isNumeric(nomeCliente))
+                {
+                    throw new FormatException("Nome inválido");
+                }
 
-            objEstabelecimento.addCliente(nomeCliente);
-            Console.WriteLine("\nCadastro realizado com sucesso");
-            pausa();
+                objEstabelecimento.addCliente(nomeCliente);
+                Console.WriteLine("\nCadastro realizado com sucesso");
+                pausa();
+            }
+            catch (ArgumentException)
+            {
+                throw new ArgumentException("Cliente já foi criado com esse nome");
+            }
         }
 
         /// Criar nova requisição
@@ -131,8 +138,8 @@ namespace staLuzia_Bulldogs
                 throw new ValorNegativoException("Valor negativo é inválido nesse contexto");
             }
 
-            objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
-            Console.WriteLine("\nRequisição criada com sucesso");
+            Requisicao oi = objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
+            Console.WriteLine("\nRequisição criada com sucesso, você está na mesa: " + oi.ToString());
             pausa();
         }
 
@@ -145,7 +152,7 @@ namespace staLuzia_Bulldogs
             Console.WriteLine("Qual cliente fará o pedido?");
             Console.Write("RESPOSTA: ");
             requisicao = objEstabelecimento.localizarRequisicao(Console.ReadLine()!);
-            if(inserirEmPedido(requisicao))
+            if (inserirEmPedido(requisicao))
                 Console.WriteLine("\nPedido realizado com sucesso!");
             else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
             pausa();
@@ -188,7 +195,7 @@ namespace staLuzia_Bulldogs
             }
             return true;
         }
-        
+
         /// Método para escolher comida do menu
         static int escolherComida()
         {
@@ -223,9 +230,9 @@ namespace staLuzia_Bulldogs
         /// Determinar o tipo do estabelecimento
         static void mainEstabelecimentos(int tipo)
         {
-            if(tipo == 1)
+            if (tipo == 1)
                 objEstabelecimento = new Restaurante();
-            else if(tipo == 2)
+            else if (tipo == 2)
                 objEstabelecimento = new Cafeteria();
 
             bool cond = true;

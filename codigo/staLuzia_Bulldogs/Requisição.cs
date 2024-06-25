@@ -57,5 +57,10 @@ namespace staLuzia_Bulldogs
             registrarSaida();
             return pedido.relatorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
         }
+
+        public override string ToString()
+        {
+            return mesa.ToString()!;
+        }
     }
 }
