@@ -249,9 +249,9 @@ namespace staLuzia_Bulldogs
                         {
                             criarCliente();
                         }
-                        catch (FormatException fx)
+                        catch (Exception ex) when (ex is FormatException || ex is ArgumentException)
                         {
-                            avisoErro(fx.Message);
+                            avisoErro(ex.Message);
                         }
                         break;
 
@@ -260,7 +260,7 @@ namespace staLuzia_Bulldogs
                         {
                             criarRequisicao();
                         }
-                        catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException)
+                        catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException || ex is ArgumentException)
                         {
                             avisoErro(ex.Message);
                         }

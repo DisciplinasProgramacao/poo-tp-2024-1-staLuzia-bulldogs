@@ -32,6 +32,11 @@ namespace staLuzia_Bulldogs
             this.mesa = mesa;
         }
 
+        public Cliente dono()
+        {
+            return cliente;
+        }
+
         /// Método para obter quantidade de pessoas
         public int obterQuantidade()
         {
@@ -53,9 +58,10 @@ namespace staLuzia_Bulldogs
         /// Método para fechar o pedido do cliente
         public string fecharPedido()
         {
-            mesa.alternarStatus();
+            if(mesa != null)
+                mesa.alternarStatus();
             registrarSaida();
-            return pedido.relatorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
+            return pedido.relatorio() + "\n\n> Data Entrada: " + dataEntrada + "\n> Data Saída: " + dataSaida;
         }
 
         public override string ToString()

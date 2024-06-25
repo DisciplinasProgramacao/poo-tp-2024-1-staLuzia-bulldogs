@@ -16,7 +16,7 @@ namespace staLuzia_Bulldogs
         /// Criar novo cardápio e atribuir as mesas de um novo restaurante
         public Restaurante()
         {
-            cardapio = new Cardapio(ETipo.restaurante);
+            cardapio = new CardapioRest();
             listaMesa = [
                 new Mesa(4),
                 new Mesa(4),
@@ -45,23 +45,32 @@ namespace staLuzia_Bulldogs
                 baseRequisicao.Add(cliente.ToString(), requisicao);
                 return requisicao;
             }
-            catch (InvalidOperationException)
+            catch (ArgumentNullException an)
             {
-                filaEspera.Enqueue(cliente);
-                throw new InvalidOperationException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
+                Console.WriteLine(an.Message);
+                return null!;
+            }
+            catch (ArgumentException)
+            {
+                throw new ArgumentException("O cliente já possui uma requisição aberta");
             }
         }
 
         private void alocarMesa(Requisicao requisicao)
         {
             Mesa mesaIdeal = buscarMesa(requisicao.obterQuantidade());
+            if (mesaIdeal == null)
+            {
+                filaEspera.Enqueue(requisicao.dono());
+                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
+            }
             requisicao.ocuparMesa(mesaIdeal);
         }
 
         /// Método para alocar a mesa com a requisição feita
         private Mesa buscarMesa(int qntPessoas)
         {
-            return listaMesa.Where(m => m.verificarCapacidade(qntPessoas)).Where(m => m.disponibilidade()).Single();
+            return listaMesa.Where(m => m.verificarCapacidade(qntPessoas)).Where(m => m.disponibilidade()).FirstOrDefault()!;
         }
 
         public override string encerrarAtendimento(Cliente cliente)
@@ -82,7 +91,12 @@ namespace staLuzia_Bulldogs
         private void avancarFilaMesa(int qntPessoas)
         {
             if(filaEspera.Count != 0)
-                abrirRequisicao(qntPessoas, filaEspera.Dequeue());
+            {
+                Cliente clienteFila = filaEspera.Dequeue();
+                abrirRequisicao(qntPessoas, clienteFila);
+                Console.WriteLine($"O cliente {clienteFila.ToString()} acaba de sair da fila de espera e abre uma requisição!");
+            }
+
         }
     }
 }

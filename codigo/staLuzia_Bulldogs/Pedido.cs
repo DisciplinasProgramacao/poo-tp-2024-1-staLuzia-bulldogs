@@ -27,13 +27,17 @@ namespace staLuzia_Bulldogs
         /// Método para relatório do pedido
         public string relatorio()
         {
+            int count = 1;
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("\n#######-CONTA-FECHADA-#######");
+            sb.AppendLine("\n> Itens pedidos:\n");
             foreach (Comida comida in listaComidas)
             {
-                sb.AppendLine(comida.ToString());
+                sb.AppendLine($"{count}° - {comida.ToString()}");
+                count++;
             }
-
-            return sb.ToString() + "\nR$: " + precoFinal().ToString("F2");
+            sb.Append("\n> Preço total com taxa: ");
+            return sb.ToString() + "R$: " + precoFinal().ToString("F2");
         }
 
         /// Método para retornar o preço final do pedido feito

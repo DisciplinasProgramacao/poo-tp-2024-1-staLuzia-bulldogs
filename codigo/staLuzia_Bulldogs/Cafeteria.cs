@@ -10,7 +10,7 @@ class Cafeteria : Estabelecimento
     /// Cria novo cardápio para a nova cafeteria
     public Cafeteria()
     {
-        cardapio = new Cardapio(ETipo.cafeteria);
+        cardapio = new CardapioCafe();
     }
 
     /// Abrir requisição para a quantidade de pessoas informadas
