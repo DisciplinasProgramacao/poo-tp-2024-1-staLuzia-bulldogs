@@ -122,7 +122,7 @@ namespace staLuzia_Bulldogs
             Console.Write("RESPOSTA: ");
 
             cliente = objEstabelecimento.localizarCliente(Console.ReadLine()!);
-            Console.WriteLine("\nQual a quantidade de pessoas que pessoas que serão atendidas?");
+            Console.WriteLine("\nQual a quantidade de pessoas que serão atendidas?");
             Console.Write("RESPOSTA: ");
 
             qntPessoas = int.Parse(Console.ReadLine()!); //FormatException
@@ -295,7 +295,7 @@ namespace staLuzia_Bulldogs
 
         static void Main(string[] args)
         {
-            int opcaoMenu = 0;
+            int opcaoMenu;
 
             try
             {

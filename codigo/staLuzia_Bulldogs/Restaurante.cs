@@ -46,6 +46,18 @@ namespace staLuzia_Bulldogs
             }
         }
 
+        private void alocarMesa(Requisicao requisicao)
+        {
+            Mesa mesaIdeal = buscarMesa(requisicao.obterQuantidade());
+            requisicao.ocuparMesa(mesaIdeal);
+        }
+
+        /// Método para alocar a mesa com a requisição feita
+        private Mesa buscarMesa(int qntPessoas)
+        {
+            return listaMesa.Where(m => m.verificarCapacidade(qntPessoas)).Where(m => m.disponibilidade()).FirstOrDefault()!;
+        }
+
         public override string encerrarAtendimento(Cliente cliente)
         {
             try
@@ -61,21 +73,10 @@ namespace staLuzia_Bulldogs
             }
         }
 
-        private void alocarMesa(Requisicao requisicao)
-        {
-            Mesa mesaIdeal = buscarMesa(requisicao.obterQuantidade());
-            requisicao.ocuparMesa(mesaIdeal);
-        }
-
-        /// Método para alocar a mesa com a requisição feita
-        private Mesa buscarMesa(int qntPessoas)
-        {
-            return listaMesa.Where(m => m.disponibilidade()).Where(m => m.verificarCapacidade(qntPessoas)).FirstOrDefault()!;
-        }
-
         private void avancarFilaMesa(int qntPessoas)
         {
-            abrirRequisicao(qntPessoas, filaEspera.Dequeue());
+            if(filaEspera.Count != 0)
+                abrirRequisicao(qntPessoas, filaEspera.Dequeue());
         }
     }
 }

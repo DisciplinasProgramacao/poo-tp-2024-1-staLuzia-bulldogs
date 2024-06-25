@@ -38,12 +38,6 @@ namespace staLuzia_Bulldogs
             return qntPessoas;
         }
 
-        /// Método para obter uma mesa
-        public Mesa obterMesa()
-        {
-            return mesa;
-        }
-
         /// Método para registrar saída do cliente
         public void registrarSaida()
         {
@@ -59,9 +53,8 @@ namespace staLuzia_Bulldogs
         /// Método para fechar o pedido do cliente
         public string fecharPedido()
         {
-            this.mesa = null!;
-            registrarSaida();
             mesa.alternarStatus();
+            registrarSaida();
             return pedido.relatorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
         }
     }
