@@ -18,8 +18,22 @@ class Cafeteria : Estabelecimento
     {
         Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
         baseRequisicao.Add(cliente.ToString(), requisicao);
-        requisicao.alternarStatus();
         return requisicao;
     }
-    
+
+    /// Método para encerrar o atendimento de um cliente
+    public override string encerrarAtendimento(Cliente cliente)
+    {
+        try
+        {
+            Requisicao requisicao = baseRequisicao[cliente.ToString()];
+            baseRequisicao.Remove(cliente.ToString());
+            return requisicao.fecharPedido();
+        }
+        catch (ArgumentNullException)
+        {
+            throw new ArgumentNullException("Cliente não possui requisição");
+        }
+    }
+
 }

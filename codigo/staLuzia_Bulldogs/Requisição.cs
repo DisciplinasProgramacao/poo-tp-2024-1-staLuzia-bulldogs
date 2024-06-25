@@ -16,7 +16,6 @@ namespace staLuzia_Bulldogs
         private Cliente cliente;
         private Mesa mesa;
         private Pedido pedido;
-        private bool status;
 
         /// Atribuir nova requisição
         public Requisicao(int qntPessoas, Cliente cliente)
@@ -26,18 +25,11 @@ namespace staLuzia_Bulldogs
             this.cliente = cliente;
             mesa = null!;
             pedido = new Pedido();
-            status = false;
         }
 
         /// Método para ocupar uma mesa
         public void ocuparMesa(Mesa mesa){
             this.mesa = mesa;
-        }
-
-        /// Método para verificar o status da mesa
-        public bool verificarStatus()
-        {
-            return status;
         }
 
         /// Método para obter quantidade de pessoas
@@ -58,12 +50,6 @@ namespace staLuzia_Bulldogs
             dataSaida = DateTime.Now;
         }
 
-        /// Método para alternar o status da mesa
-        public void alternarStatus()
-        {
-            status = !status;
-        }
-
         /// Método para adicionar nova comida no pedido
         public void updatePedido(Comida comida)
         {
@@ -73,8 +59,9 @@ namespace staLuzia_Bulldogs
         /// Método para fechar o pedido do cliente
         public string fecharPedido()
         {
+            this.mesa = null!;
             registrarSaida();
-            obterMesa().alternarStatus(false);
+            mesa.alternarStatus();
             return pedido.relatorio() + "\nData Entrada: " + dataEntrada + "\nData Saída:" + dataSaida;
         }
     }

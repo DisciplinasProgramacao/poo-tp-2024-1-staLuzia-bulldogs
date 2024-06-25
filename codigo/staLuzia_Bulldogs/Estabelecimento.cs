@@ -15,7 +15,9 @@ namespace staLuzia_Bulldogs
         protected Cardapio cardapio = null!;
         protected List<Mesa> listaMesa;
 
+        /// <summary>
         /// Cria novo estabelecimento
+        /// </summary>        
         public Estabelecimento()
         {
             baseClientes = new Dictionary<string, Cliente>();
@@ -74,7 +76,8 @@ namespace staLuzia_Bulldogs
         /// Método para adicionar comida no pedido
         public void addComida(int resp, Requisicao requisicao)
         {
-            try {
+            try
+            {
                 Comida comida = selecionarProduto(resp);
                 requisicao.updatePedido(comida);
             }
@@ -91,23 +94,6 @@ namespace staLuzia_Bulldogs
         }
 
         /// Método para encerrar o atendimento de um cliente
-        public string encerrarAtendimento(Cliente cliente)
-        {
-            try
-            {
-                Requisicao requisicao = baseRequisicao[cliente.ToString()];
-
-                if (!requisicao.verificarStatus())
-                {
-                    baseRequisicao.Remove(cliente.ToString());
-                    return requisicao.fecharPedido();
-                }
-                return "Requisição já fechada";
-            }
-            catch (ArgumentNullException)
-            {
-                throw new ArgumentNullException("Cliente não possui requisição");
-            }
-        }
+        public abstract string encerrarAtendimento(Cliente cliente);
     }
 }

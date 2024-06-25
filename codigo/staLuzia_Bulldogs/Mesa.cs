@@ -35,8 +35,8 @@ namespace staLuzia_Bulldogs
         }   
 
         /// Alternar status da mesa, sua disponibilidade
-        public void alternarStatus(bool status){
-            reservado = status;
+        public void alternarStatus(){
+            reservado = !reservado;
         }     
     }
 }

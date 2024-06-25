@@ -30,38 +30,52 @@ namespace staLuzia_Bulldogs
         }
 
         /// Método para abrir requisição no restaurante
-        public override Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
-        {
-            Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
-            Mesa mesaIdeal = alocarMesa(requisicao);
-            if (mesaIdeal == null)
-            {
-                addFilaEspera(cliente);
-                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera");
-            }
-            baseRequisicao.Add(cliente.ToString(), requisicao);
-            requisicao.ocuparMesa(mesaIdeal);
-            requisicao.alternarStatus();
-            return requisicao;
-        }
-
-        /// Método para alocar a mesa com a requisição feita
-        private Mesa alocarMesa(Requisicao requisicao)
+        public override Requisicao abrirRequisicao(int qntPessoas, Cliente cliente)
         {
             try
             {
-                return listaMesa.Where(m => m.disponibilidade()).Where(m => m.verificarCapacidade(requisicao.obterQuantidade())).FirstOrDefault()!;
+                Requisicao requisicao = new Requisicao(qntPessoas, cliente);
+                alocarMesa(requisicao);
+                baseRequisicao.Add(cliente.ToString(), requisicao);
+                return requisicao;
             }
             catch (ArgumentNullException)
             {
-                throw new ArgumentNullException("Sem mesa disponível");
+                filaEspera.Enqueue(cliente);
+                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera");
             }
         }
 
-        /// Método para adicionar fila de espera do restaurante
-        private void addFilaEspera(Cliente cliente)
+        public override string encerrarAtendimento(Cliente cliente)
         {
-            filaEspera.Enqueue(cliente);
+            try
+            {
+                Requisicao requisicao = baseRequisicao[cliente.ToString()];
+                avancarFilaMesa(requisicao.obterQuantidade());
+                baseRequisicao.Remove(cliente.ToString());
+                return requisicao.fecharPedido();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException("Cliente não possui requisição");
+            }
+        }
+
+        private void alocarMesa(Requisicao requisicao)
+        {
+            Mesa mesaIdeal = buscarMesa(requisicao.obterQuantidade());
+            requisicao.ocuparMesa(mesaIdeal);
+        }
+
+        /// Método para alocar a mesa com a requisição feita
+        private Mesa buscarMesa(int qntPessoas)
+        {
+            return listaMesa.Where(m => m.disponibilidade()).Where(m => m.verificarCapacidade(qntPessoas)).FirstOrDefault()!;
+        }
+
+        private void avancarFilaMesa(int qntPessoas)
+        {
+            abrirRequisicao(qntPessoas, filaEspera.Dequeue());
         }
     }
 }
