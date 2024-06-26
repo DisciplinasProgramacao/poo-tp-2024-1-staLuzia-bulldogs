@@ -62,7 +62,7 @@ namespace staLuzia_Bulldogs
             if (mesaIdeal == null)
             {
                 filaEspera.Enqueue(requisicao);
-                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
+                throw new ArgumentNullException(null,"Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
             }
             requisicao.ocuparMesa(mesaIdeal);
         }
