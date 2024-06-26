@@ -10,7 +10,6 @@ namespace staLuzia_Bulldogs
 {
     internal class Program
     {
-        static Estabelecimento objEstabelecimento = null!;
         static Restaurante objRestaurante = null!;
         static Cafeteria objCafeteria = null!;
 
@@ -95,7 +94,7 @@ namespace staLuzia_Bulldogs
 
 
         /// Cadastrar novo cliente
-        static void criarCliente()
+        static void criarCliente(Estabelecimento objEstabelecimento)
         {
             try
             {
@@ -121,7 +120,7 @@ namespace staLuzia_Bulldogs
         }
 
         /// Criar nova requisição
-        static void criarRequisicaoRest()
+        static void criarRequisicaoRest(Estabelecimento objEstabelecimento)
         {
             int qntPessoas;
             Cliente cliente;
@@ -147,7 +146,7 @@ namespace staLuzia_Bulldogs
             pausa();
         }
 
-        static void criarRequisicaoCafe()
+        static void criarRequisicaoCafe(Estabelecimento objEstabelecimento)
         {
             int qntPessoas;
             Cliente cliente;
@@ -171,7 +170,7 @@ namespace staLuzia_Bulldogs
         }
 
         /// Método para abrir pedido
-        static void abrirPedido()
+        static void abrirPedido(Estabelecimento objEstabelecimento)
         {
             Requisicao requisicao;
             cabecalho();
@@ -179,14 +178,14 @@ namespace staLuzia_Bulldogs
             Console.WriteLine("Qual cliente fará o pedido?");
             Console.Write("RESPOSTA: ");
             requisicao = objEstabelecimento.localizarRequisicao(Console.ReadLine()!);
-            if (inserirEmPedido(requisicao))
+            if (inserirEmPedido(requisicao, objEstabelecimento))
                 Console.WriteLine("\nPedido realizado com sucesso!");
             else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
             pausa();
         }
 
         /// Método para adicionar comidas no pedido
-        static bool inserirEmPedido(Requisicao requisicao)
+        static bool inserirEmPedido(Requisicao requisicao, Estabelecimento objEstabelecimento)
         {
             int qntProdutos;
             int respPedido;
@@ -195,7 +194,7 @@ namespace staLuzia_Bulldogs
             {
                 try
                 {
-                    respPedido = escolherComida();
+                    respPedido = escolherComida(objEstabelecimento);
                     if (respPedido == 0)
                         return false;
                     Console.WriteLine("\nQuantos desse produto?");
@@ -224,7 +223,7 @@ namespace staLuzia_Bulldogs
         }
 
         /// Método para escolher comida do menu
-        static int escolherComida()
+        static int escolherComida(Estabelecimento objEstabelecimento)
         {
 
             int opcaoMenu;
@@ -242,7 +241,7 @@ namespace staLuzia_Bulldogs
         }
 
         /// Fechar atendimento
-        static void fecharAtendimentoRest()
+        static void fecharAtendimentoRest(Estabelecimento objEstabelecimento)
         {
             Cliente cliente;
             cabecalho();
@@ -258,7 +257,7 @@ namespace staLuzia_Bulldogs
             pausa();
         }
 
-        static void fecharAtendimentoCafe()
+        static void fecharAtendimentoCafe(Estabelecimento objEstabelecimento)
         {
             Cliente cliente;
             cabecalho();
@@ -274,7 +273,7 @@ namespace staLuzia_Bulldogs
         /// Determinar o tipo do estabelecimento
         static void mainRest()
         {
-            objEstabelecimento = new Restaurante();
+            objRestaurante = new Restaurante();
 
             bool cond = true;
             int opcaoMenu;
@@ -288,7 +287,7 @@ namespace staLuzia_Bulldogs
                     case 1:
                         try
                         {
-                            criarCliente();
+                            criarCliente(objRestaurante);
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ArgumentException)
                         {
@@ -299,7 +298,7 @@ namespace staLuzia_Bulldogs
                     case 2:
                         try
                         {
-                            criarRequisicaoRest();
+                            criarRequisicaoRest(objRestaurante);
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException || ex is ArgumentException)
                         {
@@ -316,7 +315,7 @@ namespace staLuzia_Bulldogs
                     case 3:
                         try
                         {
-                            abrirPedido();
+                            abrirPedido(objRestaurante);
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException)
                         {
@@ -327,7 +326,7 @@ namespace staLuzia_Bulldogs
                     case 4:
                         try
                         {
-                            fecharAtendimentoRest();
+                            fecharAtendimentoRest(objRestaurante);
                         }
                         catch (KeyNotFoundException kn)
                         {
@@ -349,7 +348,7 @@ namespace staLuzia_Bulldogs
 
         static void mainCafe()
         {
-            objEstabelecimento = new Cafeteria();
+            objCafeteria = new Cafeteria();
 
             bool cond = true;
             int opcaoMenu;
@@ -363,7 +362,7 @@ namespace staLuzia_Bulldogs
                     case 1:
                         try
                         {
-                            criarCliente();
+                            criarCliente(objRestaurante);
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ArgumentException)
                         {
@@ -374,7 +373,7 @@ namespace staLuzia_Bulldogs
                     case 2:
                         try
                         {
-                            criarRequisicaoCafe();
+                            criarRequisicaoCafe(objCafeteria);
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException || ex is ArgumentException)
                         {
@@ -391,7 +390,7 @@ namespace staLuzia_Bulldogs
                     case 3:
                         try
                         {
-                            abrirPedido();
+                            abrirPedido(objCafeteria);
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException)
                         {
@@ -402,7 +401,7 @@ namespace staLuzia_Bulldogs
                     case 4:
                         try
                         {
-                            fecharAtendimentoCafe();
+                            fecharAtendimentoCafe(objCafeteria);
                         }
                         catch (KeyNotFoundException kn)
                         {
