@@ -18,22 +18,11 @@ namespace staLuzia_Bulldogs
             disponivel = true;
         }
 
-        public int getCapacidade()
-        {
-            return capacidade;
-        }
-
         /// Verificar disponibilidade
-        public bool disponibilidade()
+        public bool verificarDisponibilidade(int qntPessoas)
         {
-            return disponivel;
-        }
-
-        /// Verificar capacidade da mesa com a quantidade de pessoas 
-        public bool verificarCapacidade(int quantidadePessoas)
-        {
-            return (quantidadePessoas <= capacidade) ? true : false;
-        }   
+            return disponivel && qntPessoas <= capacidade ? true : false;
+        }  
 
         /// Alternar status da mesa, sua disponibilidade
         public void alternarStatus(){

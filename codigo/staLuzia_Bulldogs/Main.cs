@@ -134,12 +134,10 @@ namespace staLuzia_Bulldogs
 
             qntPessoas = int.Parse(Console.ReadLine()!); //FormatException
             if (qntPessoas < 0)
-            {
                 throw new ValorInvalidoException("Valor negativo é inválido nesse contexto");
-            }
 
-            objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
-            Console.WriteLine("\nRequisição criada com sucesso");
+            if (objEstabelecimento.abrirRequisicao(qntPessoas, cliente) != null)
+                Console.WriteLine("Requisição criada com sucesso");
             pausa();
         }
 

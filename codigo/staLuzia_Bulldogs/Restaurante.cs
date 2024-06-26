@@ -64,13 +64,14 @@ namespace staLuzia_Bulldogs
                 filaEspera.Enqueue(requisicao.dono());
                 throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
             }
+            listaMesa.Find(o => o == mesaIdeal)!.alternarStatus();
             requisicao.ocuparMesa(mesaIdeal);
         }
 
         /// Método para alocar a mesa com a requisição feita
         private Mesa buscarMesa(int qntPessoas)
         {
-            return listaMesa.Where(m => m.verificarCapacidade(qntPessoas)).Where(m => m.disponibilidade()).FirstOrDefault()!;
+            return listaMesa.Where(m => m.verificarDisponibilidade(qntPessoas)).FirstOrDefault()!;
         }
 
         public override string encerrarAtendimento(Cliente cliente)
