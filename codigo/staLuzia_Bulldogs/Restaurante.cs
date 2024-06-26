@@ -41,8 +41,8 @@ namespace staLuzia_Bulldogs
                 if (qntPessoas > MAX_ASSENTOS)
                     throw new ValorInvalidoException("Não possuimos mesa para essa quantidade de pessoas");
                 Requisicao requisicao = new Requisicao(qntPessoas, cliente);
-                alocarMesa(requisicao);
                 baseRequisicao.Add(cliente.ToString(), requisicao);
+                alocarMesa(requisicao);
                 return requisicao;
             }
             catch (ArgumentNullException an)
@@ -64,7 +64,6 @@ namespace staLuzia_Bulldogs
                 filaEspera.Enqueue(requisicao);
                 throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
             }
-            listaMesa.Find(o => o == mesaIdeal)!.alternarStatus();
             requisicao.ocuparMesa(mesaIdeal);
         }
 
@@ -73,8 +72,9 @@ namespace staLuzia_Bulldogs
             try
             {
                 Requisicao requisicao = baseRequisicao[cliente.ToString()];
-                avancarFilaMesa(requisicao.obterQuantidade());
                 baseRequisicao.Remove(cliente.ToString());
+                requisicao.liberarMesa();
+                avancarFilaMesa();
                 return requisicao.fecharPedido();
             }
             catch (KeyNotFoundException)
@@ -83,13 +83,13 @@ namespace staLuzia_Bulldogs
             }
         }
 
-        private void avancarFilaMesa(int qntPessoas)
+        private void avancarFilaMesa()
         {
             if(filaEspera.Count != 0)
             {
                 Requisicao requisicaoFila = filaEspera.Dequeue();
-                abrirRequisicao(qntPessoas, requisicaoFila.dono());
-                Console.WriteLine($"O Cliente {requisicaoFila.ToString()} acaba de sair da fila de espera e abre uma requisição!");
+                alocarMesa(requisicaoFila);
+                Console.WriteLine($"O Cliente {requisicaoFila.dono()} acaba de sair da fila de espera e ocupa uma mesa!");
             }
 
         }

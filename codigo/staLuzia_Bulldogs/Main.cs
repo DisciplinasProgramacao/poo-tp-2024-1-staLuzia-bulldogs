@@ -137,7 +137,7 @@ namespace staLuzia_Bulldogs
                 throw new ValorInvalidoException("Valor negativo é inválido nesse contexto");
 
             if (objEstabelecimento.abrirRequisicao(qntPessoas, cliente) != null)
-                Console.WriteLine("Requisição criada com sucesso");
+                Console.WriteLine("\nRequisição criada com sucesso");
             pausa();
         }
 

@@ -30,7 +30,13 @@ namespace staLuzia_Bulldogs
         /// Método para ocupar uma mesa
         public void ocuparMesa(Mesa mesa){
             this.mesa = mesa;
-            //mesa.alternarStatus();
+            mesa.alternarStatus();
+        }
+
+        public void liberarMesa()
+        {
+            mesa.alternarStatus();
+            mesa = null!;
         }
 
         public Cliente dono()
@@ -63,11 +69,6 @@ namespace staLuzia_Bulldogs
                 mesa.alternarStatus();
             registrarSaida();
             return pedido.relatorio() + "\n\n> Data Entrada: " + dataEntrada + "\n> Data Saída: " + dataSaida;
-        }
-
-        public override string ToString()
-        {
-            return mesa.ToString()!;
         }
     }
 }
