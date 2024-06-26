@@ -70,6 +70,7 @@ namespace staLuzia_Bulldogs
         /// Método para fechar o pedido do cliente
         public string resumoPedido()
         {
+            registrarSaida();
             return pedido.relatorio() + "\n\n> Data Entrada: " + dataEntrada + "\n> Data Saída: " + dataSaida;
         }
 
