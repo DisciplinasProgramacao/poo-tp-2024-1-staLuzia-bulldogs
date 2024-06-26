@@ -14,26 +14,43 @@ class Cafeteria : Estabelecimento
     }
 
     /// Abrir requisição para a quantidade de pessoas informadas
-    public override Requisicao abrirRequisicao(int quantidadePessoas, Cliente cliente)
-    {
-        Requisicao requisicao = new Requisicao(quantidadePessoas, cliente);
-        baseRequisicao.Add(cliente.ToString(), requisicao);
-        return requisicao;
-    }
+    public override Requisicao abrirRequisicao(int qntPessoas, Cliente cliente)
+        {
+            try
+            {
+                Requisicao requisicao = new Requisicao(qntPessoas, cliente);
+                baseRequisicao.Add(cliente.ToString(), requisicao);
+                return requisicao;
+            }
+            catch (ArgumentNullException an)
+            {
+                Console.WriteLine(an.Message);
+                return null!;
+            }
+            catch (ArgumentException)
+            {
+                throw new ArgumentException("O cliente já possui uma requisição aberta");
+            }
+        }
 
     /// Método para encerrar o atendimento de um cliente
-    public override string encerrarAtendimento(Cliente cliente)
-    {
-        try
+    public override Requisicao encerrarAtendimento(Cliente cliente)
         {
-            Requisicao requisicao = baseRequisicao[cliente.ToString()];
-            baseRequisicao.Remove(cliente.ToString());
-            return requisicao.fecharPedido();
+            Requisicao requisicao = null!;
+            try
+            {
+                requisicao = baseRequisicao[cliente.ToString()];
+                baseRequisicao.Remove(cliente.ToString());
+                return requisicao;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException("Cliente não possui requisição");
+            }
+            catch (ArgumentNullException)
+            {
+                throw new ArgumentNullException($"O cliente {requisicao.ToString()} acaba de sair da fila de espera e abre uma requisição!");
+            }
         }
-        catch (ArgumentNullException)
-        {
-            throw new ArgumentNullException("Cliente não possui requisição");
-        }
-    }
 
 }

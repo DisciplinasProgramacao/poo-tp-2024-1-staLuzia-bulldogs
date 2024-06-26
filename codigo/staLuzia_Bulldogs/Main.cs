@@ -221,7 +221,9 @@ namespace staLuzia_Bulldogs
             Console.WriteLine("Qual cliente fechará o pedido?");
             Console.Write("RESPOSTA: ");
             cliente = objEstabelecimento.localizarCliente(Console.ReadLine()!);
-            Console.WriteLine(objEstabelecimento.encerrarAtendimento(cliente));
+            Requisicao eliminada = objEstabelecimento.encerrarAtendimento(cliente);
+            Console.WriteLine(eliminada.resumoPedido());
+            
             pausa();
         }
 

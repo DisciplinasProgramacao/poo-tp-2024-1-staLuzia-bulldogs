@@ -38,16 +38,12 @@ namespace staLuzia_Bulldogs
         {
             try
             {
-                if (qntPessoas > MAX_ASSENTOS)
-                    throw new ValorInvalidoException("Não possuimos mesa para essa quantidade de pessoas");
                 Requisicao requisicao = new Requisicao(qntPessoas, cliente);
-                alocarMesa(requisicao);
                 baseRequisicao.Add(cliente.ToString(), requisicao);
-                return requisicao;
+                return alocarMesa(requisicao);
             }
-            catch (ArgumentNullException an)
+            catch (ArgumentNullException)
             {
-                Console.WriteLine(an.Message);
                 return null!;
             }
             catch (ArgumentException)
@@ -56,8 +52,11 @@ namespace staLuzia_Bulldogs
             }
         }
 
-        private Requisicao alocarMesa(Requisicao requisicao)
+        public Requisicao alocarMesa(Requisicao requisicao)
         {
+            if (requisicao.obterQuantidade() > MAX_ASSENTOS)
+                    throw new ValorInvalidoException("Não possuimos mesa para essa quantidade de pessoas");
+
             Mesa mesaIdeal = listaMesa.Where(m => m.verificarDisponibilidade(requisicao.obterQuantidade())).FirstOrDefault()!;
             if (mesaIdeal == null)
             {
@@ -70,30 +69,22 @@ namespace staLuzia_Bulldogs
 
         public override Requisicao encerrarAtendimento(Cliente cliente)
         {
-            string resposta = "";
             Requisicao requisicao = null!;
-            Requisicao nova = null!;
-
             try
             {
                 requisicao = baseRequisicao[cliente.ToString()];
-                nova = avancarFilaMesa();
                 baseRequisicao.Remove(cliente.ToString());
+                avancarFilaMesa();
+                return requisicao;
             }
             catch (KeyNotFoundException)
             {
                 throw new KeyNotFoundException("Cliente não possui requisição");
             }
-            catch (ArgumentNullException an)
+            catch (ArgumentNullException)
             {
-                resposta = an.Message;
+                throw new ArgumentNullException($"O cliente {requisicao.ToString()} acaba de sair da fila de espera e abre uma requisição!");
             }
-            finally
-            {
-                resposta += requisicao.fecharPedido();
-                resposta += $"O cliente {nova.ToString()} acaba de sair da fila de espera e abre uma requisição!";
-            }
-            return resposta;
         }
 
         private Requisicao avancarFilaMesa()

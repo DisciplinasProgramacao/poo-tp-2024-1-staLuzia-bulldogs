@@ -28,7 +28,8 @@ namespace staLuzia_Bulldogs
         }
 
         /// Método para ocupar uma mesa
-        public void ocuparMesa(Mesa mesa){
+        public void ocuparMesa(Mesa mesa)
+        {
             this.mesa = mesa;
             mesa.alternarStatus();
         }
@@ -56,12 +57,16 @@ namespace staLuzia_Bulldogs
             pedido.addComida(comida);
         }
 
-        /// Método para fechar o pedido do cliente
-        public string fecharPedido()
+        public void fecharPedido()
         {
-            if(mesa != null)
+            if (mesa != null)
                 mesa.alternarStatus();
             registrarSaida();
+        }
+
+        /// Método para fechar o pedido do cliente
+        public string resumoPedido()
+        {
             return pedido.relatorio() + "\n\n> Data Entrada: " + dataEntrada + "\n> Data Saída: " + dataSaida;
         }
 
