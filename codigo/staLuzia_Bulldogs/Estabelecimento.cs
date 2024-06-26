@@ -93,5 +93,6 @@ namespace staLuzia_Bulldogs
 
         /// Método para encerrar o atendimento de um cliente
         public abstract Requisicao encerrarAtendimento(Cliente cliente);
+        public abstract bool precisaMesa();
     }
 }

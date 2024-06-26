@@ -13,3 +13,18 @@ C:\Users\pedro\OneDrive\Documentos\Trabalhinhos\POO\Trabalho Prático\poo-tp-202
 C:\Users\pedro\OneDrive\Documentos\Trabalhinhos\POO\Trabalho Prático\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.pdb
 C:\Users\pedro\OneDrive\Documentos\Trabalhinhos\POO\Trabalho Prático\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.genruntimeconfig.cache
 C:\Users\pedro\OneDrive\Documentos\Trabalhinhos\POO\Trabalho Prático\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\ref\staLuzia_Bulldogs.dll
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\bin\Debug\net8.0\staLuzia_Bulldogs.exe
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\bin\Debug\net8.0\staLuzia_Bulldogs.deps.json
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\bin\Debug\net8.0\staLuzia_Bulldogs.runtimeconfig.json
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\bin\Debug\net8.0\staLuzia_Bulldogs.dll
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\bin\Debug\net8.0\staLuzia_Bulldogs.pdb
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.AssemblyInfoInputs.cache
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.AssemblyInfo.cs
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.csproj.CoreCompileInputs.cache
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.sourcelink.json
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.dll
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\refint\staLuzia_Bulldogs.dll
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.pdb
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\staLuzia_Bulldogs.genruntimeconfig.cache
+C:\Users\Rafael\Documents\GitHub\poo-tp-2024-1-staLuzia-bulldogs\codigo\staLuzia_Bulldogs\obj\Debug\net8.0\ref\staLuzia_Bulldogs.dll

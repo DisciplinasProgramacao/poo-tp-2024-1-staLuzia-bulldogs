@@ -178,10 +178,17 @@ namespace staLuzia_Bulldogs
             Console.WriteLine("Qual cliente fará o pedido?");
             Console.Write("RESPOSTA: ");
             requisicao = objEstabelecimento.localizarRequisicao(Console.ReadLine()!);
-            if (inserirEmPedido(requisicao, objEstabelecimento))
+            if(requisicao.getMesa() != null && objEstabelecimento.precisaMesa()){
+                if (inserirEmPedido(requisicao, objEstabelecimento))
                 Console.WriteLine("\nPedido realizado com sucesso!");
-            else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
-            pausa();
+                else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
+                pausa();
+            }
+            else
+            {
+                Console.WriteLine("Cliente não possui mesa, impossível realizar pedido!");
+                pausa();
+            }       
         }
 
         /// Método para adicionar comidas no pedido

@@ -91,5 +91,10 @@ namespace staLuzia_Bulldogs
             }
             return null!;
         }
+
+        public override bool precisaMesa()
+        {
+            return true;
+        }
     }
 }

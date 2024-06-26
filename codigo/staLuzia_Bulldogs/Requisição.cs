@@ -26,6 +26,9 @@ namespace staLuzia_Bulldogs
             mesa = null!;
             pedido = new Pedido();
         }
+        public Mesa getMesa(){
+            return mesa;
+        }
 
         /// Método para ocupar uma mesa
         public void ocuparMesa(Mesa mesa)

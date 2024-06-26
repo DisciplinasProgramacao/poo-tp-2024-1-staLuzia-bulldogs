@@ -53,4 +53,8 @@ class Cafeteria : Estabelecimento
             }
         }
 
+    public override bool precisaMesa()
+    {
+        return false;
+    }
 }
