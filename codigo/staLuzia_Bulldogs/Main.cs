@@ -11,6 +11,8 @@ namespace staLuzia_Bulldogs
     internal class Program
     {
         static Estabelecimento objEstabelecimento = null!;
+        static Restaurante objRestaurante = null!;
+        static Cafeteria objCafeteria = null!;
 
         /// Início
         static void pausa()
@@ -136,7 +138,34 @@ namespace staLuzia_Bulldogs
             if (qntPessoas < 0)
                 throw new ValorInvalidoException("Valor negativo é inválido nesse contexto");
 
-            if (objEstabelecimento.abrirRequisicao(qntPessoas, cliente) != null)
+            Requisicao nova = objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
+            if (nova != null)
+                Console.WriteLine("Requisição criada com sucesso");
+
+            if (objRestaurante.alocarMesa(nova!) == null)
+                Console.WriteLine("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
+            pausa();
+        }
+
+        static void criarRequisicaoCafe()
+        {
+            int qntPessoas;
+            Cliente cliente;
+            cabecalho();
+            Console.WriteLine("-------Abrir-Requisicao-------");
+            Console.WriteLine("Qual cliente será atendido?");
+            Console.Write("RESPOSTA: ");
+
+            cliente = objEstabelecimento.localizarCliente(Console.ReadLine()!);
+            Console.WriteLine("\nQual a quantidade de pessoas que serão atendidas?");
+            Console.Write("RESPOSTA: ");
+
+            qntPessoas = int.Parse(Console.ReadLine()!); //FormatException
+            if (qntPessoas < 0)
+                throw new ValorInvalidoException("Valor negativo é inválido nesse contexto");
+
+            Requisicao nova = objEstabelecimento.abrirRequisicao(qntPessoas, cliente);
+            if (nova != null)
                 Console.WriteLine("Requisição criada com sucesso");
             pausa();
         }
@@ -213,7 +242,7 @@ namespace staLuzia_Bulldogs
         }
 
         /// Fechar atendimento
-        static void fecharAtendimento()
+        static void fecharAtendimentoRest()
         {
             Cliente cliente;
             cabecalho();
@@ -223,17 +252,29 @@ namespace staLuzia_Bulldogs
             cliente = objEstabelecimento.localizarCliente(Console.ReadLine()!);
             Requisicao eliminada = objEstabelecimento.encerrarAtendimento(cliente);
             Console.WriteLine(eliminada.resumoPedido());
-            
+            Requisicao enfileirado = objRestaurante.avancarFilaMesa();
+            if (enfileirado != null)
+                Console.WriteLine($"O cliente {enfileirado.dono()} acaba de sair da fila de espera e abre uma requisição!");
+            pausa();
+        }
+
+        static void fecharAtendimentoCafe()
+        {
+            Cliente cliente;
+            cabecalho();
+            Console.WriteLine("-------Fechar-Atendimento-------");
+            Console.WriteLine("Qual cliente fechará o pedido?");
+            Console.Write("RESPOSTA: ");
+            cliente = objEstabelecimento.localizarCliente(Console.ReadLine()!);
+            Requisicao eliminada = objEstabelecimento.encerrarAtendimento(cliente);
+            Console.WriteLine(eliminada.resumoPedido());
             pausa();
         }
 
         /// Determinar o tipo do estabelecimento
-        static void mainEstabelecimentos(int tipo)
+        static void mainRest()
         {
-            if (tipo == 1)
-                objEstabelecimento = new Restaurante();
-            else if (tipo == 2)
-                objEstabelecimento = new Cafeteria();
+            objEstabelecimento = new Restaurante();
 
             bool cond = true;
             int opcaoMenu;
@@ -286,7 +327,82 @@ namespace staLuzia_Bulldogs
                     case 4:
                         try
                         {
-                            fecharAtendimento();
+                            fecharAtendimentoRest();
+                        }
+                        catch (KeyNotFoundException kn)
+                        {
+                            avisoErro(kn.Message);
+
+                        }
+                        break;
+
+                    case 5:
+                        cond = false;
+                        break;
+
+                    default:
+                        avisoErro("Opção inválida");
+                        break;
+                }
+            } while (cond == true);
+        }
+
+        static void mainCafe()
+        {
+            objEstabelecimento = new Cafeteria();
+
+            bool cond = true;
+            int opcaoMenu;
+
+            do
+            {
+                opcaoMenu = menuPrincipalRest();
+
+                switch (opcaoMenu)
+                {
+                    case 1:
+                        try
+                        {
+                            criarCliente();
+                        }
+                        catch (Exception ex) when (ex is FormatException || ex is ArgumentException)
+                        {
+                            avisoErro(ex.Message);
+                        }
+                        break;
+
+                    case 2:
+                        try
+                        {
+                            criarRequisicaoCafe();
+                        }
+                        catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException || ex is ArgumentException)
+                        {
+                            avisoErro(ex.Message);
+                        }
+                        catch (InvalidOperationException io)
+                        {
+                            Console.WriteLine(io.Message);
+                            Console.WriteLine("(Aperte qualquer tecla para continuar)");
+                            Console.ReadKey();
+                        }
+                        break;
+
+                    case 3:
+                        try
+                        {
+                            abrirPedido();
+                        }
+                        catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException)
+                        {
+                            avisoErro(ex.Message);
+                        }
+                        break;
+
+                    case 4:
+                        try
+                        {
+                            fecharAtendimentoCafe();
                         }
                         catch (KeyNotFoundException kn)
                         {
@@ -320,9 +436,17 @@ namespace staLuzia_Bulldogs
                 Console.WriteLine("===========================");
                 Console.Write("Resposta: ");
                 opcaoMenu = int.Parse(Console.ReadLine()!);
-                if (opcaoMenu < 1 || opcaoMenu > 2)
-                    throw new FormatException();
-                mainEstabelecimentos(opcaoMenu);
+                switch (opcaoMenu)
+                {
+                    case 1:
+                        mainRest();
+                        break;
+                    case 2:
+                        mainCafe();
+                        break;
+                    default :
+                        throw new FormatException(null);
+                }
             }
             catch (FormatException)
             {

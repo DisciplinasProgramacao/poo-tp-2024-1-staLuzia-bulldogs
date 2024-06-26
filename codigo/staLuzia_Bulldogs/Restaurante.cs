@@ -40,7 +40,7 @@ namespace staLuzia_Bulldogs
             {
                 Requisicao requisicao = new Requisicao(qntPessoas, cliente);
                 baseRequisicao.Add(cliente.ToString(), requisicao);
-                return alocarMesa(requisicao);
+                return requisicao;
             }
             catch (ArgumentNullException)
             {
@@ -55,13 +55,13 @@ namespace staLuzia_Bulldogs
         public Requisicao alocarMesa(Requisicao requisicao)
         {
             if (requisicao.obterQuantidade() > MAX_ASSENTOS)
-                    throw new ValorInvalidoException("Não possuimos mesa para essa quantidade de pessoas");
+                throw new ValorInvalidoException("Não possuimos mesa para essa quantidade de pessoas");
 
             Mesa mesaIdeal = listaMesa.Where(m => m.verificarDisponibilidade(requisicao.obterQuantidade())).FirstOrDefault()!;
             if (mesaIdeal == null)
             {
                 filaEspera.Enqueue(requisicao);
-                throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
+                return null!;
             }
             requisicao.ocuparMesa(mesaIdeal);
             return requisicao;
@@ -74,22 +74,17 @@ namespace staLuzia_Bulldogs
             {
                 requisicao = baseRequisicao[cliente.ToString()];
                 baseRequisicao.Remove(cliente.ToString());
-                avancarFilaMesa();
                 return requisicao;
             }
             catch (KeyNotFoundException)
             {
                 throw new KeyNotFoundException("Cliente não possui requisição");
             }
-            catch (ArgumentNullException)
-            {
-                throw new ArgumentNullException($"O cliente {requisicao.ToString()} acaba de sair da fila de espera e abre uma requisição!");
-            }
         }
 
-        private Requisicao avancarFilaMesa()
+        public Requisicao avancarFilaMesa()
         {
-            if(filaEspera.Count != 0)
+            if (filaEspera.Count != 0)
             {
                 Requisicao requisicaoFila = filaEspera.Dequeue();
                 return alocarMesa(requisicaoFila);
