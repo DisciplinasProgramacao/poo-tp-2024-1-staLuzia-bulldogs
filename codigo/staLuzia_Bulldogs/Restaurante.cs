@@ -8,7 +8,7 @@ namespace staLuzia_Bulldogs
 {
     class Restaurante : Estabelecimento
     {
-        private Queue<Cliente> filaEspera;
+        private Queue<Requisicao> filaEspera;
         private List<Mesa> listaMesa;
         static int MAX_ASSENTOS;
 
@@ -30,7 +30,7 @@ namespace staLuzia_Bulldogs
                 new Mesa(8)
             ];
             MAX_ASSENTOS = 8;
-            filaEspera = new Queue<Cliente>();
+            filaEspera = new Queue<Requisicao>();
         }
 
         /// Método para abrir requisição no restaurante
@@ -58,20 +58,14 @@ namespace staLuzia_Bulldogs
 
         private void alocarMesa(Requisicao requisicao)
         {
-            Mesa mesaIdeal = buscarMesa(requisicao.obterQuantidade());
+            Mesa mesaIdeal = listaMesa.Where(m => m.verificarDisponibilidade(requisicao.obterQuantidade())).FirstOrDefault()!;;
             if (mesaIdeal == null)
             {
-                filaEspera.Enqueue(requisicao.dono());
+                filaEspera.Enqueue(requisicao);
                 throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
             }
             listaMesa.Find(o => o == mesaIdeal)!.alternarStatus();
             requisicao.ocuparMesa(mesaIdeal);
-        }
-
-        /// Método para alocar a mesa com a requisição feita
-        private Mesa buscarMesa(int qntPessoas)
-        {
-            return listaMesa.Where(m => m.verificarDisponibilidade(qntPessoas)).FirstOrDefault()!;
         }
 
         public override string encerrarAtendimento(Cliente cliente)
@@ -93,9 +87,9 @@ namespace staLuzia_Bulldogs
         {
             if(filaEspera.Count != 0)
             {
-                Cliente clienteFila = filaEspera.Dequeue();
-                abrirRequisicao(qntPessoas, clienteFila);
-                Console.WriteLine($"O cliente {clienteFila.ToString()} acaba de sair da fila de espera e abre uma requisição!");
+                Requisicao requisicaoFila = filaEspera.Dequeue();
+                abrirRequisicao(qntPessoas, requisicaoFila.dono());
+                Console.WriteLine($"O Cliente {requisicaoFila.ToString()} acaba de sair da fila de espera e abre uma requisição!");
             }
 
         }
