@@ -119,7 +119,7 @@ namespace staLuzia_Bulldogs
         }
 
         /// Criar nova requisição
-        static void criarRequisicao()
+        static void criarRequisicaoRest()
         {
             int qntPessoas;
             Cliente cliente;
@@ -256,7 +256,7 @@ namespace staLuzia_Bulldogs
                     case 2:
                         try
                         {
-                            criarRequisicao();
+                            criarRequisicaoRest();
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ValorInvalidoException || ex is KeyNotFoundException || ex is ArgumentException)
                         {

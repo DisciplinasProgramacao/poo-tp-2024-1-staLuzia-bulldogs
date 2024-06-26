@@ -30,7 +30,7 @@ namespace staLuzia_Bulldogs
         /// Método para ocupar uma mesa
         public void ocuparMesa(Mesa mesa){
             this.mesa = mesa;
-            //mesa.alternarStatus();
+            mesa.alternarStatus();
         }
 
         public Cliente dono()

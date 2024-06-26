@@ -8,7 +8,7 @@ namespace staLuzia_Bulldogs
 {
     class Restaurante : Estabelecimento
     {
-        private Queue<Cliente> filaEspera;
+        private Queue<Requisicao> filaEspera;
         private List<Mesa> listaMesa;
         static int MAX_ASSENTOS;
 
@@ -30,7 +30,7 @@ namespace staLuzia_Bulldogs
                 new Mesa(8)
             ];
             MAX_ASSENTOS = 8;
-            filaEspera = new Queue<Cliente>();
+            filaEspera = new Queue<Requisicao>();
         }
 
         /// Método para abrir requisição no restaurante
@@ -56,48 +56,54 @@ namespace staLuzia_Bulldogs
             }
         }
 
-        private void alocarMesa(Requisicao requisicao)
+        private Requisicao alocarMesa(Requisicao requisicao)
         {
-            Mesa mesaIdeal = buscarMesa(requisicao.obterQuantidade());
+            Mesa mesaIdeal = listaMesa.Where(m => m.verificarDisponibilidade(requisicao.obterQuantidade())).FirstOrDefault()!;
             if (mesaIdeal == null)
             {
-                filaEspera.Enqueue(requisicao.dono());
+                filaEspera.Enqueue(requisicao);
                 throw new ArgumentNullException("Mesa não disponível para tal quantidade de pessoas, cliente será colocado na fila de espera!\n");
             }
-            listaMesa.Find(o => o == mesaIdeal)!.alternarStatus();
             requisicao.ocuparMesa(mesaIdeal);
+            return requisicao;
         }
 
-        /// Método para alocar a mesa com a requisição feita
-        private Mesa buscarMesa(int qntPessoas)
+        public override Requisicao encerrarAtendimento(Cliente cliente)
         {
-            return listaMesa.Where(m => m.verificarDisponibilidade(qntPessoas)).FirstOrDefault()!;
-        }
+            string resposta = "";
+            Requisicao requisicao = null!;
+            Requisicao nova = null!;
 
-        public override string encerrarAtendimento(Cliente cliente)
-        {
             try
             {
-                Requisicao requisicao = baseRequisicao[cliente.ToString()];
-                avancarFilaMesa(requisicao.obterQuantidade());
+                requisicao = baseRequisicao[cliente.ToString()];
+                nova = avancarFilaMesa();
                 baseRequisicao.Remove(cliente.ToString());
-                return requisicao.fecharPedido();
             }
             catch (KeyNotFoundException)
             {
                 throw new KeyNotFoundException("Cliente não possui requisição");
             }
+            catch (ArgumentNullException an)
+            {
+                resposta = an.Message;
+            }
+            finally
+            {
+                resposta += requisicao.fecharPedido();
+                resposta += $"O cliente {nova.ToString()} acaba de sair da fila de espera e abre uma requisição!";
+            }
+            return resposta;
         }
 
-        private void avancarFilaMesa(int qntPessoas)
+        private Requisicao avancarFilaMesa()
         {
             if(filaEspera.Count != 0)
             {
-                Cliente clienteFila = filaEspera.Dequeue();
-                abrirRequisicao(qntPessoas, clienteFila);
-                Console.WriteLine($"O cliente {clienteFila.ToString()} acaba de sair da fila de espera e abre uma requisição!");
+                Requisicao requisicaoFila = filaEspera.Dequeue();
+                return alocarMesa(requisicaoFila);
             }
-
+            return null!;
         }
     }
 }
