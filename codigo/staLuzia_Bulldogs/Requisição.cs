@@ -49,6 +49,11 @@ namespace staLuzia_Bulldogs
         {
             return qntPessoas;
         }
+        
+        public Mesa obterMesa()
+        {
+            return mesa;
+        }
 
         /// Método para registrar saída do cliente
         public void registrarSaida()

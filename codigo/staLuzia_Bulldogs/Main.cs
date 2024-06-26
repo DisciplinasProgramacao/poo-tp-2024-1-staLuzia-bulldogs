@@ -150,7 +150,9 @@ namespace staLuzia_Bulldogs
             Console.WriteLine("Qual cliente fará o pedido?");
             Console.Write("RESPOSTA: ");
             requisicao = objEstabelecimento.localizarRequisicao(Console.ReadLine()!);
-            if (inserirEmPedido(requisicao))
+            if(requisicao.obterMesa() == null)
+                throw new ArgumentNullException("Cliente não possui mesa, não é possível abrir pedido");
+            else if (inserirEmPedido(requisicao))
                 Console.WriteLine("\nPedido realizado com sucesso!");
             else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
             pausa();
