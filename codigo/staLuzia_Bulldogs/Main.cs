@@ -81,11 +81,11 @@ namespace staLuzia_Bulldogs
             cabecalho();
             Console.WriteLine("===============================");
             Console.WriteLine("Esolha uma das opções a seguir: \n");
-            Console.WriteLine("1) Abrir Requisicao");
+            Console.WriteLine("1) Cadastrar cliente \n2) Abrir Requisicao");
             Console.WriteLine("-------------------------------");
-            Console.WriteLine("2) Abrir Pedido \n3) Fechar Atendimento");
+            Console.WriteLine("3) Abrir Pedido \n4) Fechar Atendimento");
             Console.WriteLine("-------------------------------");
-            Console.WriteLine("4) Sair");
+            Console.WriteLine("5) Sair");
             Console.WriteLine("===============================");
             Console.Write("Opção desejada: ");
             int.TryParse(Console.ReadLine(), out opcaoMenu);
@@ -178,7 +178,14 @@ namespace staLuzia_Bulldogs
             Console.WriteLine("Qual cliente fará o pedido?");
             Console.Write("RESPOSTA: ");
             requisicao = objEstabelecimento.localizarRequisicao(Console.ReadLine()!);
-            if(requisicao.getMesa() != null && objEstabelecimento.precisaMesa()){
+            if(!objEstabelecimento.precisaMesa())
+            {
+                if (inserirEmPedido(requisicao, objEstabelecimento))
+                    Console.WriteLine("\nPedido realizado com sucesso!");
+                else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
+                pausa();
+            }
+            else if(requisicao.getMesa() != null){
                 if (inserirEmPedido(requisicao, objEstabelecimento))
                 Console.WriteLine("\nPedido realizado com sucesso!");
                 else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
@@ -186,7 +193,7 @@ namespace staLuzia_Bulldogs
             }
             else
             {
-                Console.WriteLine("Cliente não possui mesa, impossível realizar pedido!");
+                Console.WriteLine("Não foi possível realizar o pedido.");
                 pausa();
             }       
         }
@@ -362,14 +369,14 @@ namespace staLuzia_Bulldogs
 
             do
             {
-                opcaoMenu = menuPrincipalRest();
+                opcaoMenu = menuPrincipalCafe();
 
                 switch (opcaoMenu)
                 {
                     case 1:
                         try
                         {
-                            criarCliente(objRestaurante);
+                            criarCliente(objCafeteria);
                         }
                         catch (Exception ex) when (ex is FormatException || ex is ArgumentException)
                         {
