@@ -144,17 +144,25 @@ namespace staLuzia_Bulldogs
         /// Método para abrir pedido
         static void abrirPedido()
         {
-            Requisicao requisicao;
-            cabecalho();
-            Console.WriteLine("-------Abrir-Pedido-------");
-            Console.WriteLine("Qual cliente fará o pedido?");
-            Console.Write("RESPOSTA: ");
-            requisicao = objEstabelecimento.localizarRequisicao(Console.ReadLine()!);
-            if(requisicao.obterMesa() == null)
-                throw new ArgumentNullException("Cliente não possui mesa, não é possível abrir pedido");
-            else if (inserirEmPedido(requisicao))
-                Console.WriteLine("\nPedido realizado com sucesso!");
-            else { Console.WriteLine("\nPedido CANCELADO com sucesso!"); }
+            try
+            {
+                Requisicao requisicao;
+                cabecalho();
+                Console.WriteLine("-------Abrir-Pedido-------");
+                Console.WriteLine("Qual cliente fará o pedido?");
+                Console.Write("RESPOSTA: ");
+                requisicao = objEstabelecimento.localizarRequisicao(Console.ReadLine()!);
+                if (requisicao.obterMesa() == null)
+                    throw new ArgumentNullException(null, "Cliente não possui mesa, não é possível abrir pedido");
+                else if (inserirEmPedido(requisicao))
+                    Console.WriteLine("\nPedido realizado com sucesso!");
+                else
+                    Console.WriteLine("\nPedido CANCELADO com sucesso!");
+            }
+            catch (ArgumentNullException ex)
+            {
+                avisoErro(ex.Message);
+            }
             pausa();
         }
 
